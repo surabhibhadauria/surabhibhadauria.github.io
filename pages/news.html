@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News — SDA Lab @ ERAU</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .news-full-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px 36px;
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 28px;
+      align-items: start;
+      transition: border-color .3s;
+    }
+    .news-full-card:hover { border-color: var(--accent); }
+    .news-date-block {
+      text-align: center;
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 12px 8px;
+      border: 1px solid var(--border);
+    }
+    .news-date-block .month { font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--accent); text-transform:uppercase; }
+    .news-date-block .year  { font-family:var(--font-mono); font-size:20px; font-weight:700; line-height:1; margin-top:4px; }
+    .news-body h3 { font-size:18px; font-weight:600; margin-bottom:8px; line-height:1.35; }
+    .news-body p  { font-size:14px; color:var(--text-muted); line-height:1.7; }
+    .news-type {
+      display:inline-block;
+      font-family:var(--font-mono); font-size:10px; letter-spacing:.12em;
+      text-transform:uppercase; padding:3px 10px;
+      border-radius:3px; margin-bottom:10px;
+    }
+    .type-launch  { background:rgba(79,156,249,.15); color:var(--accent); }
+    .type-paper   { background:rgba(249,168,79,.15); color:var(--accent2); }
+    .type-award   { background:rgba(100,220,120,.15); color:#6bdc7a; }
+    .type-hiring  { background:rgba(200,100,250,.15); color:#d07af9; }
+    @media(max-width:600px){ .news-full-card { grid-template-columns:1fr; } .news-date-block { width:100px; } }
+  </style>
+</head>
+<body>
+<canvas id="starfield"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">SDA<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="join.html" class="btn" style="padding:8px 18px;font-size:12px;">Join Us</a></li>
+    </ul>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-hero" style="position:relative;z-index:1;">
+  <div class="container">
+    <span class="tag">// What's Happening</span>
+    <h1>Lab <span>News</span></h1>
+    <p>Updates on research milestones, publications, awards, and people.</p>
+  </div>
+</div>
+
+<section class="section" style="position:relative;z-index:1;">
+  <div class="container">
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <div class="news-full-card">
+        <div class="news-date-block">
+          <div class="month">Jun</div>
+          <div class="year">2024</div>
+        </div>
+        <div class="news-body">
+          <span class="news-type type-launch">Launch</span>
+          <h3>SDA Lab officially established at Embry-Riddle Aeronautical University</h3>
+          <p>Dr. [Your Name] joins ERAU as an Assistant Professor and launches the Space Domain Awareness Lab. The lab's mission is to develop next-generation tools for tracking, characterizing, and predicting the behavior of resident space objects to support safe space operations.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block">
+          <div class="month">Jun</div>
+          <div class="year">2024</div>
+        </div>
+        <div class="news-body">
+          <span class="news-type type-hiring">Hiring</span>
+          <h3>Graduate student positions open for Fall 2025</h3>
+          <p>The SDA Lab is actively recruiting PhD and MS students for the 2025–2026 academic year. Ideal candidates have backgrounds in astrodynamics, estimation theory, signal processing, or machine learning. Fully-funded PhD positions available.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card" style="opacity:.5;border-style:dashed;">
+        <div class="news-date-block">
+          <div class="month">—</div>
+          <div class="year">—</div>
+        </div>
+        <div class="news-body">
+          <span class="news-type type-paper">Paper</span>
+          <h3>Add your news items here</h3>
+          <p>Edit pages/news.html to add your own items. Types available: type-launch, type-paper, type-award, type-hiring. Duplicate a news-full-card block for each entry.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><strong>SDA Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
+      <div class="footer-links">
+        <a href="research.html">Research</a>
+        <a href="people.html">People</a>
+        <a href="publications.html">Publications</a>
+        <a href="join.html">Join</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>People — SDA Lab @ ERAU</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .pi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 48px;
+      margin-bottom: 64px;
+      border-left: 3px solid var(--accent);
+    }
+    .pi-photo {
+      width: 100%; aspect-ratio: 1/1;
+      background: var(--bg-card2);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 64px;
+      overflow: hidden;
+    }
+    .pi-photo img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
+    .pi-info h2 { font-size:28px; font-weight:700; margin-bottom:6px; }
+    .pi-title { font-family:var(--font-mono); font-size:13px; color:var(--accent); letter-spacing:.08em; margin-bottom:20px; }
+    .pi-bio { color:var(--text-muted); font-size:16px; line-height:1.75; margin-bottom:20px; }
+    .pi-links { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+    @media(max-width:700px){ .pi-card { grid-template-columns:1fr; padding:28px; } }
+  </style>
+</head>
+<body>
+<canvas id="starfield"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">SDA<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="join.html" class="btn" style="padding:8px 18px;font-size:12px;">Join Us</a></li>
+    </ul>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-hero" style="position:relative;z-index:1;">
+  <div class="container">
+    <span class="tag">// The Team</span>
+    <h1>Lab <span>Members</span></h1>
+    <p>Meet the researchers working to keep space safe and sustainable.</p>
+  </div>
+</div>
+
+<section class="section" style="position:relative;z-index:1;">
+  <div class="container">
+
+    <!-- PI -->
+    <span class="tag" style="margin-bottom:24px;">// Principal Investigator</span>
+    <div class="pi-card">
+      <div class="pi-photo">👩‍🔬</div>
+      <div class="pi-info">
+        <h2>Dr. [Your Full Name]</h2>
+        <div class="pi-title">Assistant Professor · Space Domain Awareness Lab · ERAU</div>
+        <p class="pi-bio">
+          Dr. [Name] is an Assistant Professor in the [Department] at Embry-Riddle Aeronautical University, Daytona Beach. Their research focuses on space domain awareness, with emphasis on orbit determination, sensor fusion, and machine learning approaches to space situational awareness.
+        </p>
+        <p class="pi-bio">
+          Prior to joining ERAU, Dr. [Name] completed their [PhD/postdoc] at [Institution]. They have published work on [topic] and collaborated with [agency/company]. They are a member of [professional society, e.g. AAS, AIAA].
+        </p>
+        <div class="pi-links">
+          <a href="mailto:youremail@erau.edu" class="btn" style="font-size:12px;padding:8px 16px;">Email</a>
+          <a href="#" class="btn" style="font-size:12px;padding:8px 16px;">Google Scholar</a>
+          <a href="#" class="btn" style="font-size:12px;padding:8px 16px;">CV (PDF)</a>
+          <a href="#" class="btn" style="font-size:12px;padding:8px 16px;">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graduate Students -->
+    <span class="tag" style="margin-bottom:24px;display:block;">// Graduate Students</span>
+    <div class="team-grid" style="margin-bottom:64px;">
+      <div class="team-card" style="border-style:dashed;opacity:.6;">
+        <div class="team-photo" style="font-size:40px;">+</div>
+        <div class="team-info">
+          <div class="team-name">PhD Position Open</div>
+          <div class="team-role">Graduate Researcher</div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">
+            Starting Fall 2025 / Spring 2026. See Join page.
+          </p>
+        </div>
+      </div>
+      <div class="team-card" style="border-style:dashed;opacity:.6;">
+        <div class="team-photo" style="font-size:40px;">+</div>
+        <div class="team-info">
+          <div class="team-name">MS Position Open</div>
+          <div class="team-role">Graduate Researcher</div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">
+            Starting Fall 2025 / Spring 2026. See Join page.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Undergrads -->
+    <span class="tag" style="margin-bottom:24px;display:block;">// Undergraduate Researchers</span>
+    <div class="team-grid">
+      <div class="team-card" style="border-style:dashed;opacity:.6;">
+        <div class="team-photo" style="font-size:40px;">+</div>
+        <div class="team-info">
+          <div class="team-name">Undergrad Positions</div>
+          <div class="team-role">Research Assistant</div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">
+            ERAM/EGS students with interest in SDA welcome.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><strong>SDA Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
+      <div class="footer-links">
+        <a href="research.html">Research</a>
+        <a href="people.html">People</a>
+        <a href="publications.html">Publications</a>
+        <a href="join.html">Join</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

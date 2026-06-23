@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Research — SDA Lab @ ERAU</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+<canvas id="starfield"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">SDA<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="join.html" class="btn" style="padding:8px 18px;font-size:12px;">Join Us</a></li>
+    </ul>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-hero" style="position:relative;z-index:1;">
+  <div class="container">
+    <span class="tag">// What We Investigate</span>
+    <h1>Our <span>Research</span></h1>
+    <p>We develop the mathematical, computational, and sensing tools needed to maintain awareness of the orbital environment.</p>
+  </div>
+</div>
+
+<section class="section" style="position:relative;z-index:1;">
+  <div class="container">
+
+    <!-- Thrust 1 -->
+    <div style="margin-bottom:80px;">
+      <span class="tag">// Thrust 01</span>
+      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:700;margin-bottom:16px;letter-spacing:-.02em;">Resident Space Object <span style="color:var(--accent)">Tracking &amp; Orbit Determination</span></h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+        <div>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
+            With over 27,000 tracked objects — and many more untracked — accurate orbit determination is the cornerstone of space safety. We develop and test novel algorithms for initial orbit determination (IOD), orbit propagation, and maneuver detection using sparse, noisy, and heterogeneous observation data.
+          </p>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
+            Key methods include Batch Least Squares, Extended and Unscented Kalman Filters, and Particle Filter approaches robust to non-Gaussian uncertainty. We also investigate the use of angles-only observations from ground-based optical telescopes for deep-space RSO tracking.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Initial Orbit Determination</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Kalman Filtering</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Maneuver Detection</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Angles-Only Obs.</span>
+          </div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px;text-align:center;">
+          <div style="font-size:64px;margin-bottom:16px;">🛰️</div>
+          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;">Placeholder for orbit visualization / figure</p>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Replace with a figure from your research</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-bottom:80px;"/>
+
+    <!-- Thrust 2 -->
+    <div style="margin-bottom:80px;">
+      <span class="tag">// Thrust 02</span>
+      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:700;margin-bottom:16px;letter-spacing:-.02em;">Multi-Sensor Fusion &amp; <span style="color:var(--accent)">Sensor Tasking</span></h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px;text-align:center;">
+          <div style="font-size:64px;margin-bottom:16px;">📡</div>
+          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;">Placeholder for sensor network diagram</p>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Replace with a figure from your research</p>
+        </div>
+        <div>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
+            No single sensor can monitor the full catalog. Radar provides range and range-rate; optical sensors deliver high-precision angular positions; and laser ranging offers centimeter-level accuracy for select targets. We study how to fuse these complementary datasets optimally.
+          </p>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
+            A companion problem is sensor tasking: given a finite network of sensors with scheduling constraints, which objects should each sensor observe, and when? We approach this as a resource allocation and decision-making problem under uncertainty.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Radar Observation</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Optical Tracking</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Data Fusion</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Sensor Scheduling</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-bottom:80px;"/>
+
+    <!-- Thrust 3 -->
+    <div>
+      <span class="tag">// Thrust 03</span>
+      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:700;margin-bottom:16px;letter-spacing:-.02em;">Machine Learning for <span style="color:var(--accent)">Space Situational Awareness</span></h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+        <div>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
+            The scale of the modern orbital catalog demands automated, data-driven approaches. We apply deep learning, Bayesian neural networks, and reinforcement learning to problems in object characterization (size, shape, material), anomalous behavior detection, and conjunction screening.
+          </p>
+          <p style="color:var(--text-muted);font-size:16px;line-height:1.75;">
+            A particular focus is developing models that are uncertainty-aware — that know when they don't know — which is essential for high-stakes collision avoidance decisions.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Deep Learning</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Bayesian Inference</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Object Characterization</span>
+            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Conjunction Analysis</span>
+          </div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px;text-align:center;">
+          <div style="font-size:64px;margin-bottom:16px;">🤖</div>
+          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;">Placeholder for ML architecture / results</p>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Replace with a figure from your research</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><strong>SDA Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
+      <div class="footer-links">
+        <a href="research.html">Research</a>
+        <a href="people.html">People</a>
+        <a href="publications.html">Publications</a>
+        <a href="join.html">Join</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js"></script>
+</body>
+</html>

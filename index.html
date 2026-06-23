@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SDA Lab @ ERAU — Space Domain Awareness</title>
+  <meta name="description" content="Space Domain Awareness Research Lab at Embry-Riddle Aeronautical University. We develop algorithms and sensing systems to track, characterize, and predict resident space objects."/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      SDA<span>LAB</span>
+      <small>Embry-Riddle Aeronautical University</small>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="pages/research.html">Research</a></li>
+      <li><a href="pages/people.html">People</a></li>
+      <li><a href="pages/publications.html">Publications</a></li>
+      <li><a href="pages/news.html">News</a></li>
+      <li><a href="pages/join.html" class="btn" style="padding:8px 18px;font-size:12px;">Join Us</a></li>
+    </ul>
+    <div class="nav-burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-eyebrow">// Space Domain Awareness Lab</p>
+        <h1>Watching Over<br/>the <em>Final</em><br/>Frontier.</h1>
+        <p class="hero-sub">
+          We develop algorithms, sensing systems, and analytical frameworks to track, characterize, and predict the behavior of resident space objects — keeping space safe for everyone.
+        </p>
+        <div class="hero-cta">
+          <a href="pages/research.html" class="btn">Our Research</a>
+          <a href="pages/join.html" class="btn btn-gold">Join the Lab</a>
+        </div>
+      </div>
+
+      <!-- Animated SVG orbit diagram -->
+      <div class="orbit-wrap">
+        <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="earthGrad" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#1e3a5f"/>
+              <stop offset="100%" stop-color="#0d1f3c"/>
+            </radialGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- orbit rings -->
+          <ellipse cx="210" cy="210" rx="160" ry="60" fill="none" stroke="rgba(79,156,249,0.15)" stroke-width="1" transform="rotate(-20,210,210)"/>
+          <ellipse cx="210" cy="210" rx="130" ry="50" fill="none" stroke="rgba(79,156,249,0.12)" stroke-width="1" transform="rotate(30,210,210)"/>
+          <ellipse cx="210" cy="210" rx="185" ry="70" fill="none" stroke="rgba(249,168,79,0.10)" stroke-width="1" transform="rotate(60,210,210)"/>
+
+          <!-- Earth -->
+          <circle cx="210" cy="210" r="46" fill="url(#earthGrad)" filter="url(#glow)"/>
+          <circle cx="210" cy="210" r="46" fill="none" stroke="rgba(79,156,249,0.4)" stroke-width="1.5"/>
+          <!-- continent silhouette hints -->
+          <ellipse cx="200" cy="200" rx="14" ry="9" fill="rgba(79,156,249,0.18)" transform="rotate(-30,200,200)"/>
+          <ellipse cx="222" cy="215" rx="10" ry="7" fill="rgba(79,156,249,0.14)" transform="rotate(15,222,215)"/>
+
+          <!-- Satellites — animated along orbits -->
+          <!-- Satellite 1 -->
+          <g filter="url(#glow)">
+            <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="8s" repeatCount="indefinite"/>
+            <ellipse cx="210" cy="210" rx="160" ry="60" fill="none" transform="rotate(-20,210,210)" visibility="hidden"/>
+            <circle cx="370" cy="210" r="5" fill="#4f9cf9"/>
+            <rect x="373" y="208" width="10" height="4" fill="rgba(79,156,249,0.6)" rx="1"/>
+            <rect x="357" y="208" width="10" height="4" fill="rgba(79,156,249,0.6)" rx="1"/>
+          </g>
+
+          <!-- Satellite 2 -->
+          <g filter="url(#glow)">
+            <animateTransform attributeName="transform" type="rotate" from="120 210 210" to="480 210 210" dur="13s" repeatCount="indefinite"/>
+            <circle cx="340" cy="210" r="4" fill="#f9a84f"/>
+            <rect x="343" y="208.5" width="8" height="3" fill="rgba(249,168,79,0.6)" rx="1"/>
+            <rect x="329" y="208.5" width="8" height="3" fill="rgba(249,168,79,0.6)" rx="1"/>
+          </g>
+
+          <!-- Debris dot 1 -->
+          <g>
+            <animateTransform attributeName="transform" type="rotate" from="220 210 210" to="580 210 210" dur="6s" repeatCount="indefinite"/>
+            <circle cx="395" cy="210" r="2.5" fill="rgba(255,255,255,0.5)"/>
+          </g>
+
+          <!-- Debris dot 2 -->
+          <g>
+            <animateTransform attributeName="transform" type="rotate" from="60 210 210" to="-300 210 210" dur="10s" repeatCount="indefinite"/>
+            <circle cx="210" cy="25" r="2" fill="rgba(249,168,79,0.6)"/>
+          </g>
+
+          <!-- Legend -->
+          <circle cx="24" cy="390" r="5" fill="#4f9cf9"/>
+          <text x="34" y="394" fill="rgba(200,220,255,0.6)" font-size="11" font-family="monospace">Active RSO</text>
+          <circle cx="24" cy="408" r="4" fill="#f9a84f"/>
+          <text x="34" y="412" fill="rgba(200,220,255,0.6)" font-size="11" font-family="monospace">Tracked object</text>
+          <circle cx="130" cy="390" r="2.5" fill="rgba(255,255,255,0.5)"/>
+          <text x="138" y="394" fill="rgba(200,220,255,0.6)" font-size="11" font-family="monospace">Debris</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar" style="position:relative;z-index:1;">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">~27,000</div>
+        <div class="stat-label">Tracked objects in Earth orbit</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Active research thrusts</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">ERAU</div>
+        <div class="stat-label">Daytona Beach, Florida</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2024</div>
+        <div class="stat-label">Lab founded</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESEARCH PREVIEW -->
+<section class="section" style="position:relative;z-index:1;">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">// What We Do</span>
+      <h2>Research <span>Thrusts</span></h2>
+      <p>Our work spans sensor fusion, orbital mechanics, and machine learning — all in service of a safer space environment.</p>
+    </div>
+    <div class="research-grid">
+      <div class="research-card">
+        <span class="research-icon">🛰️</span>
+        <h3>Resident Space Object Tracking</h3>
+        <p>Developing novel algorithms for initial orbit determination, state estimation, and data association for catalogued and uncatalogued RSOs in LEO, MEO, and GEO regimes.</p>
+      </div>
+      <div class="research-card">
+        <span class="research-icon">📡</span>
+        <h3>Sensor Fusion &amp; Tasking</h3>
+        <p>Fusing heterogeneous sensor data — radar, optical, laser ranging — to maximize surveillance coverage and orbit accuracy under realistic sensor constraints.</p>
+      </div>
+      <div class="research-card">
+        <span class="research-icon">🤖</span>
+        <h3>ML for Space Situational Awareness</h3>
+        <p>Applying deep learning and Bayesian inference to object characterization, maneuver detection, and conjunction risk assessment at scale.</p>
+      </div>
+    </div>
+    <div style="margin-top:36px;">
+      <a href="pages/research.html" class="btn">View All Research →</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- TEAM PREVIEW -->
+<section class="section" style="position:relative;z-index:1;">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">// The Team</span>
+      <h2>Meet the <span>Lab</span></h2>
+      <p>A growing team of researchers passionate about keeping space safe and accessible.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-photo">👩‍🔬</div>
+        <div class="team-info">
+          <div class="team-name">Dr. [Your Name]</div>
+          <div class="team-role">Principal Investigator</div>
+        </div>
+      </div>
+      <div class="team-card" style="border-style:dashed;opacity:.6;">
+        <div class="team-photo" style="font-size:32px;">+</div>
+        <div class="team-info">
+          <div class="team-name">PhD Position Open</div>
+          <div class="team-role">Graduate Researcher</div>
+        </div>
+      </div>
+      <div class="team-card" style="border-style:dashed;opacity:.6;">
+        <div class="team-photo" style="font-size:32px;">+</div>
+        <div class="team-info">
+          <div class="team-name">MS Position Open</div>
+          <div class="team-role">Graduate Researcher</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:36px;">
+      <a href="pages/people.html" class="btn">Meet Everyone →</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- NEWS PREVIEW -->
+<section class="section" style="position:relative;z-index:1;">
+  <div class="container">
+    <div class="section-head">
+      <span class="tag">// Latest</span>
+      <h2>Lab <span>News</span></h2>
+    </div>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-date">June 2024</div>
+        <h3>SDA Lab officially launches at ERAU Daytona Beach</h3>
+        <p>Dr. [Your Name] joins the faculty of Embry-Riddle Aeronautical University and establishes the Space Domain Awareness Lab.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-date">Coming Soon</div>
+        <h3>PhD &amp; MS positions available — Fall 2025</h3>
+        <p>We are actively recruiting motivated graduate students with backgrounds in astrodynamics, signal processing, or machine learning.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-date">Coming Soon</div>
+        <h3>Research updates will appear here</h3>
+        <p>Grant awards, conference presentations, paper acceptances, and student milestones will be posted as they happen.</p>
+      </div>
+    </div>
+    <div style="margin-top:36px;">
+      <a href="pages/news.html" class="btn">All News →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>SDA Lab</strong> — Space Domain Awareness Lab<br/>
+        Embry-Riddle Aeronautical University, Daytona Beach, FL
+      </div>
+      <div class="footer-links">
+        <a href="pages/research.html">Research</a>
+        <a href="pages/people.html">People</a>
+        <a href="pages/publications.html">Publications</a>
+        <a href="pages/join.html">Join</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
