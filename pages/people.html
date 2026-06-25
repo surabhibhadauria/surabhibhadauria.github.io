@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>People — SDA Lab @ ERAU</title>
+  <title>People — SOAR Lab @ ERAU</title>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
     .pi-card {
@@ -11,7 +11,7 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       display: grid;
-      grid-template-columns: 260px 1fr;
+      grid-template-columns: 240px 1fr;
       gap: 48px;
       padding: 48px;
       margin-bottom: 64px;
@@ -28,8 +28,14 @@
     .pi-photo img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
     .pi-info h2 { font-size:28px; font-weight:700; margin-bottom:6px; }
     .pi-title { font-family:var(--font-mono); font-size:13px; color:var(--accent); letter-spacing:.08em; margin-bottom:20px; }
-    .pi-bio { color:var(--text-muted); font-size:16px; line-height:1.75; margin-bottom:20px; }
+    .pi-bio { color:var(--text-muted); font-size:16px; line-height:1.75; margin-bottom:14px; }
     .pi-links { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+    .award-list { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+    .award-item {
+      display:flex; gap:12px; align-items:flex-start;
+      font-size:14px; color:var(--text-muted); line-height:1.5;
+    }
+    .award-item::before { content:"★"; color:var(--accent2); flex-shrink:0; font-size:12px; padding-top:2px; }
     @media(max-width:700px){ .pi-card { grid-template-columns:1fr; padding:28px; } }
   </style>
 </head>
@@ -38,7 +44,7 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">SDA<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
+    <a href="../index.html" class="nav-logo">SOAR<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
     <ul class="nav-links">
       <li><a href="../index.html">Home</a></li>
       <li><a href="research.html">Research</a></li>
@@ -55,7 +61,7 @@
   <div class="container">
     <span class="tag">// The Team</span>
     <h1>Lab <span>Members</span></h1>
-    <p>Meet the researchers working to keep space safe and sustainable.</p>
+    <p>Meet the researchers working to bring persistent awareness to the cislunar frontier.</p>
   </div>
 </div>
 
@@ -65,21 +71,36 @@
     <!-- PI -->
     <span class="tag" style="margin-bottom:24px;">// Principal Investigator</span>
     <div class="pi-card">
-      <div class="pi-photo">👩‍🔬</div>
+      <div>
+        <div class="pi-photo">👩‍🔬</div>
+        <!-- Replace emoji above with: <div class="pi-photo"><img src="../images/bhadauria.jpg" alt="Dr. Surabhi Bhadauria"/></div> -->
+      </div>
       <div class="pi-info">
-        <h2>Dr. [Your Full Name]</h2>
-        <div class="pi-title">Assistant Professor · Space Domain Awareness Lab · ERAU</div>
+        <h2>Dr. Surabhi Bhadauria</h2>
+        <div class="pi-title">Assistant Professor (Tenure-Track) · Aerospace Engineering · ERAU</div>
         <p class="pi-bio">
-          Dr. [Name] is an Assistant Professor in the [Department] at Embry-Riddle Aeronautical University, Daytona Beach. Their research focuses on space domain awareness, with emphasis on orbit determination, sensor fusion, and machine learning approaches to space situational awareness.
+          Dr. Bhadauria is an Assistant Professor in the Department of Aerospace Engineering at Embry-Riddle Aeronautical University, Daytona Beach, where she leads the Space Observation and Astrodynamics Research (SOAR) Lab. Her research focuses on cislunar space domain awareness, encompassing surveillance trajectory design, observer architecture optimization, and multi-sensor data fusion in the Earth-Moon system.
         </p>
         <p class="pi-bio">
-          Prior to joining ERAU, Dr. [Name] completed their [PhD/postdoc] at [Institution]. They have published work on [topic] and collaborated with [agency/company]. They are a member of [professional society, e.g. AAS, AIAA].
+          She received her Ph.D. (2025) and M.S. (2020) in Aeronautical and Astronautical Engineering from Purdue University, where she worked in the Space Information Dynamics Group under Prof. Carolin Frueh. Her doctoral dissertation — <em>Eyes on the Cislunar Frontier: Enhancing Space Domain Awareness with Ground and Space-Based Observers</em> — developed novel frameworks for optical surveillance in the cislunar regime using the Bicircular Four-Body Problem.
         </p>
+
+        <div style="margin-top:20px;">
+          <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;">Honors &amp; Awards</p>
+          <div class="award-list">
+            <div class="award-item">Estus H. and Vashti L. Magoon Teaching Award, College of Engineering, Purdue University (2025)</div>
+            <div class="award-item">Future Leaders in Aerospace Symposium — MIT AeroAstro, Stanford, CU Boulder &amp; Penn State (2024)</div>
+            <div class="award-item">Amelia Earhart Leadership for Space Careers Program (2023–2024)</div>
+            <div class="award-item">Trailblazers in Engineering Fellow, Purdue University (2023)</div>
+            <div class="award-item">AAE Teaching Fellowship, Purdue University (2023–2024)</div>
+            <div class="award-item">Prime Minister's Scholarship, Ministry of Defence, India (2012–2016)</div>
+          </div>
+        </div>
+
         <div class="pi-links">
-          <a href="mailto:youremail@erau.edu" class="btn" style="font-size:12px;padding:8px 16px;">Email</a>
+          <a href="mailto:bhadaurs@erau.edu" class="btn" style="font-size:12px;padding:8px 16px;">bhadaurs@erau.edu</a>
           <a href="#" class="btn" style="font-size:12px;padding:8px 16px;">Google Scholar</a>
           <a href="#" class="btn" style="font-size:12px;padding:8px 16px;">CV (PDF)</a>
-          <a href="#" class="btn" style="font-size:12px;padding:8px 16px;">LinkedIn</a>
         </div>
       </div>
     </div>
@@ -87,41 +108,65 @@
     <!-- Graduate Students -->
     <span class="tag" style="margin-bottom:24px;display:block;">// Graduate Students</span>
     <div class="team-grid" style="margin-bottom:64px;">
+
+      <div class="team-card">
+        <div class="team-photo" style="font-size:40px;">🎓</div>
+        <div class="team-info">
+          <div class="team-name">Stephanie Quan</div>
+          <div class="team-role">MS Student (Thesis)</div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">Constellation design for cislunar space surveillance. Co-author, AAS/AIAA 2026.</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo" style="font-size:40px;">🎓</div>
+        <div class="team-info">
+          <div class="team-name">Lucas Bottero</div>
+          <div class="team-role">MS Student (Thesis)</div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">Multi-sensor data fusion for cislunar SDA using radar and optical observations.</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo" style="font-size:40px;">🎓</div>
+        <div class="team-info">
+          <div class="team-name">Jacob Blanton</div>
+          <div class="team-role">MS Student (Thesis)</div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;"> </p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo" style="font-size:40px;">🎓</div>
+        <div class="team-info">
+          <div class="team-name">Abdulrahman Abdrabou</div>
+          <div class="team-role">PhD Student</div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">Attitude-orbital dynamics. Co-author, AAS/AIAA 2026.</p>
+        </div>
+      </div>
+
       <div class="team-card" style="border-style:dashed;opacity:.6;">
         <div class="team-photo" style="font-size:40px;">+</div>
         <div class="team-info">
           <div class="team-name">PhD Position Open</div>
           <div class="team-role">Graduate Researcher</div>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">
-            Starting Fall 2025 / Spring 2026. See Join page.
-          </p>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">See <a href="join.html" style="color:var(--accent);">Join Us</a> for details.</p>
         </div>
       </div>
-      <div class="team-card" style="border-style:dashed;opacity:.6;">
-        <div class="team-photo" style="font-size:40px;">+</div>
-        <div class="team-info">
-          <div class="team-name">MS Position Open</div>
-          <div class="team-role">Graduate Researcher</div>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">
-            Starting Fall 2025 / Spring 2026. See Join page.
-          </p>
-        </div>
-      </div>
+
     </div>
 
-    <!-- Undergrads -->
+    <!-- Undergrad Researchers -->
     <span class="tag" style="margin-bottom:24px;display:block;">// Undergraduate Researchers</span>
     <div class="team-grid">
-      <div class="team-card" style="border-style:dashed;opacity:.6;">
-        <div class="team-photo" style="font-size:40px;">+</div>
-        <div class="team-info">
-          <div class="team-name">Undergrad Positions</div>
-          <div class="team-role">Research Assistant</div>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;padding:0 4px 14px;">
-            ERAM/EGS students with interest in SDA welcome.
-          </p>
-        </div>
-      </div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">Stone Lucksinger</div><div class="team-role">Undergraduate Researcher</div></div></div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">Robert Nelson</div><div class="team-role">Undergraduate Researcher</div></div></div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">Joshua Robinett</div><div class="team-role">Undergraduate Researcher</div></div></div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">Joseph Cox</div><div class="team-role">Undergraduate Researcher</div></div></div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">John Lachnicht</div><div class="team-role">Undergraduate Researcher</div></div></div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">Ella Sparks</div><div class="team-role">Undergraduate Researcher</div></div></div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">Max Rabbe</div><div class="team-role">Undergraduate Researcher</div></div></div>
+      <div class="team-card"><div class="team-photo" style="font-size:36px;">🚀</div><div class="team-info"><div class="team-name">Giovanni Decapua</div><div class="team-role">Undergraduate Researcher</div></div></div>
     </div>
 
   </div>
@@ -130,7 +175,7 @@
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-brand"><strong>SDA Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
+      <div class="footer-brand"><strong>SOAR Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
       <div class="footer-links">
         <a href="research.html">Research</a>
         <a href="people.html">People</a>

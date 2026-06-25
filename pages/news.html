@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>News — SDA Lab @ ERAU</title>
+  <title>News — SOAR Lab @ ERAU</title>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
     .news-full-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 32px 36px;
+      padding: 28px 32px;
       display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 28px;
+      grid-template-columns: 96px 1fr;
+      gap: 24px;
       align-items: start;
       transition: border-color .3s;
     }
@@ -22,24 +22,20 @@
       text-align: center;
       background: var(--bg);
       border-radius: 6px;
-      padding: 12px 8px;
+      padding: 10px 6px;
       border: 1px solid var(--border);
     }
-    .news-date-block .month { font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--accent); text-transform:uppercase; }
-    .news-date-block .year  { font-family:var(--font-mono); font-size:20px; font-weight:700; line-height:1; margin-top:4px; }
-    .news-body h3 { font-size:18px; font-weight:600; margin-bottom:8px; line-height:1.35; }
+    .news-date-block .month { font-family:var(--font-mono); font-size:10px; letter-spacing:.12em; color:var(--accent); text-transform:uppercase; }
+    .news-date-block .year  { font-family:var(--font-mono); font-size:18px; font-weight:700; line-height:1.1; margin-top:3px; }
+    .news-body h3 { font-size:17px; font-weight:600; margin-bottom:8px; line-height:1.35; }
     .news-body p  { font-size:14px; color:var(--text-muted); line-height:1.7; }
-    .news-type {
-      display:inline-block;
-      font-family:var(--font-mono); font-size:10px; letter-spacing:.12em;
-      text-transform:uppercase; padding:3px 10px;
-      border-radius:3px; margin-bottom:10px;
-    }
+    .news-type { display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; padding:3px 10px; border-radius:3px; margin-bottom:10px; }
     .type-launch  { background:rgba(79,156,249,.15); color:var(--accent); }
     .type-paper   { background:rgba(249,168,79,.15); color:var(--accent2); }
     .type-award   { background:rgba(100,220,120,.15); color:#6bdc7a; }
     .type-hiring  { background:rgba(200,100,250,.15); color:#d07af9; }
-    @media(max-width:600px){ .news-full-card { grid-template-columns:1fr; } .news-date-block { width:100px; } }
+    .type-talk    { background:rgba(79,220,220,.15); color:#4fdcdc; }
+    @media(max-width:600px){ .news-full-card { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -47,7 +43,7 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">SDA<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
+    <a href="../index.html" class="nav-logo">SOAR<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
     <ul class="nav-links">
       <li><a href="../index.html">Home</a></li>
       <li><a href="research.html">Research</a></li>
@@ -64,47 +60,119 @@
   <div class="container">
     <span class="tag">// What's Happening</span>
     <h1>Lab <span>News</span></h1>
-    <p>Updates on research milestones, publications, awards, and people.</p>
+    <p>Research milestones, publications, awards, talks, and team updates.</p>
   </div>
 </div>
 
 <section class="section" style="position:relative;z-index:1;">
   <div class="container">
-    <div style="display:flex;flex-direction:column;gap:20px;">
+    <div style="display:flex;flex-direction:column;gap:18px;">
 
       <div class="news-full-card">
-        <div class="news-date-block">
-          <div class="month">Jun</div>
-          <div class="year">2024</div>
+        <div class="news-date-block"><div class="month">Jul</div><div class="year">2026</div></div>
+        <div class="news-body">
+          <span class="news-type type-award">Grant</span>
+          <h3>FIRST Grant Awarded — Optimized Cislunar Observer Architectures</h3>
+          <p>Dr. Bhadauria is awarded an ERAU Faculty Innovative Research in Science and Technology (FIRST) grant as sole PI. The project, running July 2026 – June 2027, will develop optimized space-based observer architectures for sustained cislunar monitoring.</p>
         </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Jul</div><div class="year">2026</div></div>
+        <div class="news-body">
+          <span class="news-type type-paper">Conference</span>
+          <h3>Three papers accepted at AAS/AIAA Astrodynamics Specialist Conference, Whistler</h3>
+          <p>SOAR Lab members will present at the AAS/AIAA Astrodynamics Specialist Conference in Whistler, BC: constellation design for cislunar surveillance (Quan et al.), multi-sensor data fusion (Bottero, Lovell &amp; Bhadauria), and attitude-orbital dynamics (Abdrabou, Crespo &amp; Bhadauria).</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Jun</div><div class="year">2026</div></div>
+        <div class="news-body">
+          <span class="news-type type-paper">Journal</span>
+          <h3>New paper published in <em>Advances in Space Research</em></h3>
+          <p>Bhadauria &amp; Frueh publish "Optimal Optical Cislunar Space Surveillance Positioning Leveraging the BCR4BP and Average Visibility" in Advances in Space Research.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">May</div><div class="year">2026</div></div>
+        <div class="news-body">
+          <span class="news-type type-paper">Conference</span>
+          <h3>Quan &amp; Bhadauria present at ASCEND Conference, Washington D.C.</h3>
+          <p>MS student Stephanie Quan presents "Optimal Placement of Earth and Moon Ground-Based Observers for Cislunar Space Surveillance" at ASCEND 2026.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Apr</div><div class="year">2026</div></div>
+        <div class="news-body">
+          <span class="news-type type-talk">Talk</span>
+          <h3>Dr. Bhadauria presents to ERAU Industry Advisory Board</h3>
+          <p>"Space Domain Awareness in the Earth-Moon System" presented at the ERAU Industry Advisory Board meeting, showcasing SOAR Lab's research directions and student work.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Apr</div><div class="year">2026</div></div>
+        <div class="news-body">
+          <span class="news-type type-paper">Poster</span>
+          <h3>Two SOAR Lab posters at ERAU Discovery Day</h3>
+          <p>Stephanie Quan and Lucas Bottero both presented posters at ERAU Discovery Day 2026, showcasing their MS thesis research on cislunar surveillance constellation design and multi-sensor data fusion respectively.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Feb</div><div class="year">2026</div></div>
+        <div class="news-body">
+          <span class="news-type type-talk">Talk</span>
+          <h3>Invited talks at Mississippi State University and South Dakota School of Mines</h3>
+          <p>Dr. Bhadauria delivers invited research presentations on cislunar space surveillance at Mississippi State University and the South Dakota School of Mines &amp; Technology.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Nov</div><div class="year">2025</div></div>
+        <div class="news-body">
+          <span class="news-type type-talk">Talk</span>
+          <h3>SOAR Lab overview presented at ERAU IAB Research Showcase</h3>
+          <p>Dr. Bhadauria presents the SOAR Lab's research vision and ongoing projects at the Embry-Riddle Aeronautical University Industry Advisory Board Research Showcase.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Sep</div><div class="year">2025</div></div>
+        <div class="news-body">
+          <span class="news-type type-paper">Journal</span>
+          <h3>Paper published in <em>Journal of Astronautical Sciences</em></h3>
+          <p>Bhadauria, Black &amp; Frueh publish "Cislunar Key Region Surveillance Optimization" in The Journal of Astronautical Sciences.</p>
+        </div>
+      </div>
+
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Aug</div><div class="year">2025</div></div>
         <div class="news-body">
           <span class="news-type type-launch">Launch</span>
-          <h3>SDA Lab officially established at Embry-Riddle Aeronautical University</h3>
-          <p>Dr. [Your Name] joins ERAU as an Assistant Professor and launches the Space Domain Awareness Lab. The lab's mission is to develop next-generation tools for tracking, characterizing, and predicting the behavior of resident space objects to support safe space operations.</p>
+          <h3>SOAR Lab established at Embry-Riddle Aeronautical University</h3>
+          <p>Dr. Surabhi Bhadauria joins ERAU as a tenure-track Assistant Professor in Aerospace Engineering and establishes the Space Observation and Astrodynamics Research (SOAR) Lab. The lab focuses on cislunar space domain awareness, observer architecture design, and multi-sensor fusion.</p>
         </div>
       </div>
 
       <div class="news-full-card">
-        <div class="news-date-block">
-          <div class="month">Jun</div>
-          <div class="year">2024</div>
-        </div>
+        <div class="news-date-block"><div class="month">Aug</div><div class="year">2025</div></div>
         <div class="news-body">
-          <span class="news-type type-hiring">Hiring</span>
-          <h3>Graduate student positions open for Fall 2025</h3>
-          <p>The SDA Lab is actively recruiting PhD and MS students for the 2025–2026 academic year. Ideal candidates have backgrounds in astrodynamics, estimation theory, signal processing, or machine learning. Fully-funded PhD positions available.</p>
+          <span class="news-type type-award">Award</span>
+          <h3>Magoon Teaching Award — Purdue University College of Engineering</h3>
+          <p>Dr. Bhadauria receives the Estus H. and Vashti L. Magoon Teaching Award from the College of Engineering at Purdue University, recognizing excellence in teaching.</p>
         </div>
       </div>
 
-      <div class="news-full-card" style="opacity:.5;border-style:dashed;">
-        <div class="news-date-block">
-          <div class="month">—</div>
-          <div class="year">—</div>
-        </div>
+      <div class="news-full-card">
+        <div class="news-date-block"><div class="month">Aug</div><div class="year">2025</div></div>
         <div class="news-body">
-          <span class="news-type type-paper">Paper</span>
-          <h3>Add your news items here</h3>
-          <p>Edit pages/news.html to add your own items. Types available: type-launch, type-paper, type-award, type-hiring. Duplicate a news-full-card block for each entry.</p>
+          <span class="news-type type-hiring">Hiring</span>
+          <h3>Graduate student positions open</h3>
+          <p>The SOAR Lab is actively recruiting PhD and MS students. We are looking for motivated researchers with backgrounds in astrodynamics, orbital mechanics, estimation theory, or related fields. Funded positions available.</p>
         </div>
       </div>
 
@@ -115,7 +183,7 @@
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-brand"><strong>SDA Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
+      <div class="footer-brand"><strong>SOAR Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
       <div class="footer-links">
         <a href="research.html">Research</a>
         <a href="people.html">People</a>
