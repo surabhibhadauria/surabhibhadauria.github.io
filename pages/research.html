@@ -14,10 +14,11 @@
     .bullet-list li::before { content:"›"; position:absolute; left:0; color:var(--accent); font-size:16px; line-height:1.4; }
     .thrust-fig {
       background:var(--bg-card); border:1px solid var(--border);
-      border-radius:8px; padding:32px; text-align:center;
+      border-radius:8px; padding:16px 20px; text-align:center;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
     }
-    .thrust-fig .icon { font-size:56px; margin-bottom:14px; }
-    .thrust-fig p { font-size:12px; color:var(--text-muted); line-height:1.6; }
+    .thrust-fig .icon { font-size:32px; margin-bottom:8px; }
+    .thrust-fig p { font-size:11px; color:var(--text-muted); line-height:1.5; }
     .pub-ref {
       margin-top:20px; padding:16px 20px;
       background:var(--bg-card); border:1px solid var(--border);
@@ -56,7 +57,7 @@
 <div class="page-hero" style="position:relative;z-index:1;">
   <div class="container">
     <h1>Our <span>Research</span></h1>
-    <p>We develop the mathematical, computational, and observational tools needed to bring persistent awareness to the cislunar domain — the vast region between Earth and the Moon.</p>
+    <p style="max-width:100%;">We develop the mathematical, computational, and observational tools needed to bring persistent awareness to the cislunar domain — the vast region between Earth and the Moon.</p>
   </div>
 </div>
 
@@ -68,7 +69,7 @@
       <span class="tag-plain">Thrust 01</span>
       <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Observer Architecture &amp; <span style="color:var(--accent)">Surveillance Trajectory Design</span></h2>
       <p class="thrust-intro">Designing next-generation sensor architectures for persistent Space Domain Awareness in the Earth–Moon system.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+      <div style="display:grid;grid-template-columns:1fr 220px;gap:40px;align-items:center;margin-top:24px;">
         <div>
           <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
             As human activity expands beyond Earth orbit, maintaining continuous awareness of objects in cislunar space requires coordinated networks of ground-, space-, and lunar-based sensors. Our research develops optimization and astrodynamics techniques to design resilient surveillance architectures for this emerging operational environment.
@@ -98,7 +99,7 @@
       <span class="tag-plain">Thrust 02</span>
       <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Multi-Sensor Data Fusion for <span style="color:var(--accent)">Space Domain Awareness</span></h2>
       <p class="thrust-intro">Combining heterogeneous sensor observations into a unified operational picture of space objects.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:center;margin-top:24px;">
         <div class="thrust-fig">
           <div class="icon">📡</div>
           <p>Placeholder — replace with your sensor fusion architecture, tracking results, or uncertainty ellipsoid visualization.</p>
@@ -128,7 +129,7 @@
       <span class="tag-plain">Thrust 03</span>
       <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Active Space Debris Mitigation &amp; <span style="color:var(--accent)">Plasma-Based Technologies</span></h2>
       <p class="thrust-intro">Developing innovative technologies for sustainable and safe utilization of near-Earth space.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+      <div style="display:grid;grid-template-columns:1fr 220px;gap:40px;align-items:center;margin-top:24px;">
         <div>
           <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
             The growing population of orbital debris poses significant risks to satellites and future space missions. Our research investigates plasma-based approaches for active debris mitigation and orbital environment management.
@@ -154,7 +155,7 @@
       <span class="tag-plain">Thrust 04</span>
       <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Space Missions, Optical Payloads &amp; <span style="color:var(--accent)">Student Flight Experiments</span></h2>
       <p class="thrust-intro">Transforming research into flight opportunities through international collaborations.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:center;margin-top:24px;">
         <div class="thrust-fig">
           <div class="icon">🛸</div>
           <p>Placeholder — replace with payload design, satellite render, or mission concept figure.</p>
@@ -181,7 +182,7 @@
 <section class="section-sm" style="position:relative;z-index:1;background:var(--bg-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
     <span class="tag-plain" style="margin-bottom:20px;">Funded Research</span>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div style="display:grid;grid-template-columns:1fr;gap:24px;">
       <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:28px;border-left:3px solid var(--accent2);">
         <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--accent2);text-transform:uppercase;margin-bottom:10px;">ERAU FIRST Grant · Jul 2026 – Jun 2027</p>
         <h3 style="font-size:16px;font-weight:600;margin-bottom:10px;line-height:1.4;">Optimized Space-Based Observer Architectures for Sustained Cislunar Monitoring</h3>
