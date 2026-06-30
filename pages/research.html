@@ -5,13 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Research — SOAR Lab @ ERAU</title>
   <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .bullet-list { display:flex; flex-direction:column; gap:9px; margin-top:18px; }
+    .bullet-list li {
+      font-size:14px; color:var(--text-muted); line-height:1.65;
+      padding-left:18px; position:relative;
+    }
+    .bullet-list li::before { content:"›"; position:absolute; left:0; color:var(--accent); font-size:16px; line-height:1.4; }
+    .thrust-fig {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:8px; padding:32px; text-align:center;
+    }
+    .thrust-fig .icon { font-size:56px; margin-bottom:14px; }
+    .thrust-fig p { font-size:12px; color:var(--text-muted); line-height:1.6; }
+    .pub-ref {
+      margin-top:20px; padding:16px 20px;
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:6px; border-left:3px solid var(--accent);
+      font-size:13px; color:var(--text-muted); line-height:1.65;
+    }
+    .pub-ref strong { color:var(--text); }
+    .tag-plain {
+      font-size:13px; letter-spacing:.04em; color:var(--accent);
+      display:block; margin-bottom:12px; font-weight:500;
+    }
+    .thrust-intro {
+      font-size:16px; color:var(--text); font-weight:500;
+      margin-bottom:10px; line-height:1.5;
+    }
+  </style>
 </head>
 <body>
 <canvas id="starfield"></canvas>
 
 <nav>
   <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">SOAR<span>LAB</span><small>Embry-Riddle Aeronautical University</small></a>
+    <a href="../index.html" class="nav-logo">SOAR<span>LAB</span><small>Space Observation &amp; Astrodynamics Research &nbsp;·&nbsp; Embry-Riddle Aeronautical University</small></a>
     <ul class="nav-links">
       <li><a href="../index.html">Home</a></li>
       <li><a href="research.html">Research</a></li>
@@ -26,7 +55,6 @@
 
 <div class="page-hero" style="position:relative;z-index:1;">
   <div class="container">
-    <span class="tag">// What We Investigate</span>
     <h1>Our <span>Research</span></h1>
     <p>We develop the mathematical, computational, and observational tools needed to bring persistent awareness to the cislunar domain — the vast region between Earth and the Moon.</p>
   </div>
@@ -35,103 +63,114 @@
 <section class="section" style="position:relative;z-index:1;">
   <div class="container">
 
-    <!-- Thrust 1 -->
+    <!-- Thrust A -->
     <div style="margin-bottom:80px;">
-      <span class="tag">// Thrust 01</span>
-      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:700;margin-bottom:16px;letter-spacing:-.02em;">Cislunar Space <span style="color:var(--accent)">Domain Awareness</span></h2>
+      <span class="tag-plain">Thrust 01</span>
+      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Observer Architecture &amp; <span style="color:var(--accent)">Surveillance Trajectory Design</span></h2>
+      <p class="thrust-intro">Designing next-generation sensor architectures for persistent Space Domain Awareness in the Earth–Moon system.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
         <div>
-          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
-            As lunar exploration and commercial cislunar activity accelerate, the Earth-Moon system is becoming increasingly congested. Unlike the well-catalogued near-Earth regime, cislunar space presents fundamentally different dynamical and observational challenges: complex multi-body gravity, widely distributed trajectories, and sparse existing sensor coverage.
+          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
+            As human activity expands beyond Earth orbit, maintaining continuous awareness of objects in cislunar space requires coordinated networks of ground-, space-, and lunar-based sensors. Our research develops optimization and astrodynamics techniques to design resilient surveillance architectures for this emerging operational environment.
           </p>
-          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
-            We leverage the geometry of the Bicircular Restricted Four-Body Problem (BCR4BP) to characterize natural optical observation regions in cislunar space — understanding where objects are visible, when, and from which vantage points. This foundational work underpins our observer design and trajectory optimization efforts.
-          </p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">BCR4BP Dynamics</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Optical Observation Regions</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Visibility Analysis</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Key Region Identification</span>
+          <ul class="bullet-list">
+            <li>Design optimal Earth-based optical sensor networks for continuous cislunar monitoring.</li>
+            <li>Develop surveillance satellite constellations using Earth-Moon dynamical orbits.</li>
+            <li>Quantify visibility of key cislunar regions, including Earth-Moon Lagrange points and transfer corridors.</li>
+            <li>Investigate future lunar-based observatories for persistent monitoring of regions inaccessible from Earth.</li>
+            <li>Optimize integrated multi-platform sensor architectures for global cislunar coverage.</li>
+          </ul>
+          <div class="pub-ref">
+            <strong>Related publications:</strong> Bhadauria &amp; Frueh, <em>Adv. Space Research</em> (2026) · Bhadauria, Black &amp; Frueh, <em>J. Astronautical Sciences</em> (2025) · Quan et al., <em>AAS/AIAA</em> (2026) · AMOS (2022, 2024)
           </div>
         </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px;text-align:center;">
-          <div style="font-size:64px;margin-bottom:16px;">🌙</div>
-          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;">Placeholder — add your figure here</p>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">e.g., BCR4BP visibility map or cislunar observation region plot</p>
+        <div class="thrust-fig">
+          <div class="icon">🔭</div>
+          <p>Placeholder — replace with your observer network diagram, visibility map, or constellation geometry figure.</p>
         </div>
-      </div>
-      <div style="margin-top:20px;padding:20px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;border-left:3px solid var(--accent);">
-        <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">
-          <strong style="color:var(--text);">Related publications:</strong> Bhadauria &amp; Frueh, <em>Advances in Space Research</em> (2026) · Bhadauria, Black &amp; Frueh, <em>J. Astronautical Sciences</em> (2025) · AMOS 2022, 2024 · AAS/AIAA 2022, 2025
-        </p>
       </div>
     </div>
 
     <hr class="divider" style="margin-bottom:80px;"/>
 
-    <!-- Thrust 2 -->
+    <!-- Thrust B -->
     <div style="margin-bottom:80px;">
-      <span class="tag">// Thrust 02</span>
-      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:700;margin-bottom:16px;letter-spacing:-.02em;">Observer Architecture &amp; <span style="color:var(--accent)">Surveillance Trajectory Design</span></h2>
+      <span class="tag-plain">Thrust 02</span>
+      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Multi-Sensor Data Fusion for <span style="color:var(--accent)">Space Domain Awareness</span></h2>
+      <p class="thrust-intro">Combining heterogeneous sensor observations into a unified operational picture of space objects.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px;text-align:center;">
-          <div style="font-size:64px;margin-bottom:16px;">🔭</div>
-          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;">Placeholder — add your figure here</p>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">e.g., optimal observer placement diagram or constellation geometry</p>
+        <div class="thrust-fig">
+          <div class="icon">📡</div>
+          <p>Placeholder — replace with your sensor fusion architecture, tracking results, or uncertainty ellipsoid visualization.</p>
         </div>
         <div>
-          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
-            Knowing where to look is only part of the challenge — we must also decide where to put our observers. We formulate and solve optimization problems for placing ground-based stations (on Earth and the Moon) and designing space-based observer trajectories that maximize coverage of cislunar space.
+          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
+            No single sensing modality can reliably observe all objects in cislunar space. Our research develops data fusion algorithms that integrate optical, radar, and laser-ranging observations to improve orbit determination, object tracking, and uncertainty quantification.
           </p>
-          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
-            Our ERAU FIRST grant (2026–2027) directly funds this thrust, developing optimized space-based observer architectures for sustained cislunar monitoring. We also study constellation design — how multiple observers can be coordinated for maximum collective coverage.
-          </p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Observer Optimization</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Constellation Design</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Halo &amp; Resonance Orbits</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Ground Station Siting</span>
+          <ul class="bullet-list">
+            <li>Fuse optical, radar, and laser-ranging observations for enhanced tracking performance.</li>
+            <li>Develop probabilistic methods for uncertainty propagation across heterogeneous sensor data.</li>
+            <li>Improve orbit determination through multi-source measurement integration.</li>
+            <li>Perform sensor registration, coordinate transformation, and time synchronization.</li>
+            <li>Enable robust real-time tracking for future cislunar traffic management.</li>
+          </ul>
+          <div class="pub-ref">
+            <strong>Related publications:</strong> Bottero, Lovell &amp; Bhadauria, <em>AAS/AIAA</em> (2026) · Bhadauria &amp; Frueh, <em>AAS/AIAA</em> (2020)
           </div>
         </div>
-      </div>
-      <div style="margin-top:20px;padding:20px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;border-left:3px solid var(--accent);">
-        <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">
-          <strong style="color:var(--text);">Related publications:</strong> Quan &amp; Bhadauria, <em>ASCEND</em> (2026) · Quan, Baker-McEvilly et al., <em>AAS/AIAA</em> (2026) · Baker-McEvilly, Bhadauria et al., <em>AIAA SCITECH</em> (2024) · Frueh, DeMars, Howell, Bhadauria et al., <em>ESC Space Debris</em> (2021)
-        </p>
       </div>
     </div>
 
     <hr class="divider" style="margin-bottom:80px;"/>
 
-    <!-- Thrust 3 -->
+    <!-- Thrust C -->
+    <div style="margin-bottom:80px;">
+      <span class="tag-plain">Thrust 03</span>
+      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Active Space Debris Mitigation &amp; <span style="color:var(--accent)">Plasma-Based Technologies</span></h2>
+      <p class="thrust-intro">Developing innovative technologies for sustainable and safe utilization of near-Earth space.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+        <div>
+          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
+            The growing population of orbital debris poses significant risks to satellites and future space missions. Our research investigates plasma-based approaches for active debris mitigation and orbital environment management.
+          </p>
+          <ul class="bullet-list">
+            <li>Investigate plasma-ablation techniques for controlled orbital debris removal.</li>
+            <li>Model plasma–material interactions for space applications.</li>
+            <li>Analyze orbital evolution following active debris mitigation.</li>
+            <li>Support sustainable space operations through advanced mitigation technologies.</li>
+          </ul>
+        </div>
+        <div class="thrust-fig">
+          <div class="icon">⚡</div>
+          <p>Placeholder — replace with a debris mitigation concept figure or plasma interaction diagram.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" style="margin-bottom:80px;"/>
+
+    <!-- Thrust D -->
     <div>
-      <span class="tag">// Thrust 03</span>
-      <h2 style="font-size:clamp(24px,3vw,36px);font-weight:700;margin-bottom:16px;letter-spacing:-.02em;">Multi-Sensor Fusion for <span style="color:var(--accent)">Cislunar SSA</span></h2>
+      <span class="tag-plain">Thrust 04</span>
+      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Space Missions, Optical Payloads &amp; <span style="color:var(--accent)">Student Flight Experiments</span></h2>
+      <p class="thrust-intro">Transforming research into flight opportunities through international collaborations.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:24px;">
+        <div class="thrust-fig">
+          <div class="icon">🛸</div>
+          <p>Placeholder — replace with payload design, satellite render, or mission concept figure.</p>
+        </div>
         <div>
-          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
-            No single sensor type is sufficient for comprehensive cislunar surveillance. Optical telescopes excel at angular precision in dark conditions; radar systems provide range and velocity information but face range limitations at lunar distances. We develop frameworks to fuse these complementary data streams for enhanced detection and tracking.
+          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
+            Our lab partners with academic and international organizations to develop spaceflight payloads that advance Space Domain Awareness while providing hands-on opportunities for students.
           </p>
-          <p style="color:var(--text-muted);margin-bottom:16px;font-size:16px;line-height:1.75;">
-            Current work focuses on combining radar and optical observations to track resident space objects throughout the cislunar regime, including in the challenging near-lunar environment where Earth-based radar coverage degrades significantly.
-          </p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Radar + Optical Fusion</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">RSO Detection &amp; Tracking</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Data Association</span>
-            <span style="background:var(--bg-card);border:1px solid var(--border);padding:5px 12px;border-radius:3px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-muted);">Too-Short Arc Processing</span>
-          </div>
+          <ul class="bullet-list">
+            <li>Develop an optical payload for Space Domain Awareness aboard the Global Girrlz SAT mission with Space Kidz India.</li>
+            <li>Design compact imaging systems for on-orbit observation and object detection.</li>
+            <li>Develop image processing algorithms for autonomous space-based observations.</li>
+            <li>Involve undergraduate and graduate students in payload design, integration, and testing.</li>
+            <li>Promote international collaboration in space technology and workforce development.</li>
+          </ul>
         </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:32px;text-align:center;">
-          <div style="font-size:64px;margin-bottom:16px;">📡</div>
-          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;">Placeholder — add your figure here</p>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">e.g., sensor fusion architecture or tracking results</p>
-        </div>
-      </div>
-      <div style="margin-top:20px;padding:20px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;border-left:3px solid var(--accent);">
-        <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">
-          <strong style="color:var(--text);">Related publications:</strong> Bottero, Lovell &amp; Bhadauria, <em>AAS/AIAA</em> (2026) · Bhadauria &amp; Frueh, <em>AAS/AIAA</em> (2020)
-        </p>
       </div>
     </div>
 
@@ -141,10 +180,10 @@
 <!-- Funded Research -->
 <section class="section-sm" style="position:relative;z-index:1;background:var(--bg-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
-    <span class="tag" style="margin-bottom:20px;display:block;">// Funded Research</span>
+    <span class="tag-plain" style="margin-bottom:20px;">Funded Research</span>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
       <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:28px;border-left:3px solid var(--accent2);">
-        <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--accent2);text-transform:uppercase;margin-bottom:10px;">ERAU FIRST Grant · Jul 2026 – Jun 2027</p>
+        <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--accent2);text-transform:uppercase;margin-bottom:10px;">ERAU FIRST Grant · Jul 2026 – Jun 2027</p>
         <h3 style="font-size:16px;font-weight:600;margin-bottom:10px;line-height:1.4;">Optimized Space-Based Observer Architectures for Sustained Cislunar Monitoring</h3>
         <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">Faculty Innovative Research in Science and Technology (FIRST) program, Embry-Riddle Aeronautical University. Sole PI: Dr. Surabhi Bhadauria.</p>
       </div>
