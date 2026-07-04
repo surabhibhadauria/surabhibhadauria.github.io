@@ -6,33 +6,121 @@
   <title>Research — SOAR Lab @ ERAU</title>
   <link rel="stylesheet" href="../css/style.css"/>
   <style>
-    .bullet-list { display:flex; flex-direction:column; gap:9px; margin-top:18px; }
+    /* ---- Thrust layout ---- */
+    .thrust-block {
+      display: grid;
+      gap: 40px;
+      align-items: center;
+      margin-top: 28px;
+    }
+    .thrust-block.fig-right  { grid-template-columns: 1fr 380px; }
+    .thrust-block.fig-left   { grid-template-columns: 380px 1fr; }
+
+    /* Animation frame */
+    .anim-frame {
+      width: 100%;
+      height: 300px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: block;
+      background: #050914;
+    }
+
+    /* Text column */
+    .thrust-text p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 0;
+    }
+
+    .bullet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
     .bullet-list li {
-      font-size:14px; color:var(--text-muted); line-height:1.65;
-      padding-left:18px; position:relative;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding-left: 18px;
+      position: relative;
     }
-    .bullet-list li::before { content:"›"; position:absolute; left:0; color:var(--accent); font-size:16px; line-height:1.4; }
-    .thrust-fig {
-      background:var(--bg-card); border:1px solid var(--border);
-      border-radius:8px; padding:16px 20px; text-align:center;
-      display:flex; flex-direction:column; justify-content:center; align-items:center;
+    .bullet-list li::before {
+      content: "›";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 16px;
+      line-height: 1.4;
     }
-    .thrust-fig .icon { font-size:32px; margin-bottom:8px; }
-    .thrust-fig p { font-size:11px; color:var(--text-muted); line-height:1.5; }
+
     .pub-ref {
-      margin-top:20px; padding:16px 20px;
-      background:var(--bg-card); border:1px solid var(--border);
-      border-radius:6px; border-left:3px solid var(--accent);
-      font-size:13px; color:var(--text-muted); line-height:1.65;
+      margin-top: 18px;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
     }
-    .pub-ref strong { color:var(--text); }
-    .tag-plain {
-      font-size:13px; letter-spacing:.04em; color:var(--accent);
-      display:block; margin-bottom:12px; font-weight:500;
+    .pub-ref strong { color: var(--text); }
+
+    .thrust-label {
+      font-size: 12px;
+      letter-spacing: .12em;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      display: block;
+      margin-bottom: 10px;
     }
     .thrust-intro {
-      font-size:16px; color:var(--text); font-weight:500;
-      margin-bottom:10px; line-height:1.5;
+      font-size: 16px;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.55;
+      margin-bottom: 6px;
+    }
+
+    /* Funded research */
+    .funded-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: 8px;
+      padding: 28px 32px;
+    }
+    .funded-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .1em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .funded-card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .funded-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .thrust-block.fig-right,
+      .thrust-block.fig-left  { grid-template-columns: 1fr; }
+      .thrust-block.fig-left .anim-frame { order: -1; }
+      .anim-frame { height: 240px; }
     }
   </style>
 </head>
@@ -41,7 +129,10 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="../index.html" class="nav-logo">SOAR<span>LAB</span><small>Space Observation &amp; Astrodynamics Research &nbsp;·&nbsp; Embry-Riddle Aeronautical University</small></a>
+    <a href="../index.html" class="nav-logo">
+      SOAR<span>LAB</span>
+      <small>Space Observation &amp; Astrodynamics Research &nbsp;·&nbsp; Embry-Riddle Aeronautical University</small>
+    </a>
     <ul class="nav-links">
       <li><a href="../index.html">Home</a></li>
       <li><a href="research.html">Research</a></li>
@@ -54,25 +145,28 @@
   </div>
 </nav>
 
+<!-- PAGE HERO -->
 <div class="page-hero" style="position:relative;z-index:1;">
   <div class="container">
     <h1>Our <span>Research</span></h1>
-    <p style="max-width:100%;">We develop the mathematical, computational, and observational tools needed to bring persistent awareness to the cislunar domain — the vast region between Earth and the Moon.</p>
+    <p>We develop the mathematical, computational, and observational tools needed to bring persistent awareness to the cislunar domain — the vast region between Earth and the Moon.</p>
   </div>
 </div>
 
 <section class="section" style="position:relative;z-index:1;">
   <div class="container">
 
-    <!-- Thrust A -->
+    <!-- ═══ THRUST 01 ═══ -->
     <div style="margin-bottom:80px;">
-      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Observer Architecture &amp; <span style="color:var(--accent)">Surveillance Trajectory Design</span></h2>
+      <span class="thrust-label">Thrust 01</span>
+      <h2 style="font-size:clamp(20px,2.8vw,32px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px;">
+        Observer Architecture &amp; <span style="color:var(--accent)">Surveillance Trajectory Design</span>
+      </h2>
       <p class="thrust-intro">Designing next-generation sensor architectures for persistent Space Domain Awareness in the Earth–Moon system.</p>
-      <div style="display:grid;grid-template-columns:1fr 220px;gap:40px;align-items:center;margin-top:24px;">
-        <div>
-          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
-            As human activity expands beyond Earth orbit, maintaining continuous awareness of objects in cislunar space requires coordinated networks of ground-, space-, and lunar-based sensors. Our research develops optimization and astrodynamics techniques to design resilient surveillance architectures for this emerging operational environment.
-          </p>
+
+      <div class="thrust-block fig-right">
+        <div class="thrust-text">
+          <p>As human activity expands beyond Earth orbit, maintaining continuous awareness of objects in cislunar space requires coordinated networks of ground-, space-, and lunar-based sensors. Our research develops optimization and astrodynamics techniques to design resilient surveillance architectures for this emerging operational environment.</p>
           <ul class="bullet-list">
             <li>Design optimal Earth-based optical sensor networks for continuous cislunar monitoring.</li>
             <li>Develop surveillance satellite constellations using Earth-Moon dynamical orbits.</li>
@@ -84,31 +178,24 @@
             <strong>Related publications:</strong> Bhadauria &amp; Frueh, <em>Adv. Space Research</em> (2026) · Bhadauria, Black &amp; Frueh, <em>J. Astronautical Sciences</em> (2025) · Quan et al., <em>AAS/AIAA</em> (2026) · AMOS (2022, 2024)
           </div>
         </div>
-<div class="thrust-fig">
-  <img src="images/cislunar-observer-network.jpg"
-       alt="Observer architecture for cislunar surveillance"
-       style="width:100%; border-radius:12px; display:block; box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+        <iframe class="anim-frame" src="../pages/animations/thrust1.html" scrolling="no" loading="lazy" title="Observer Architecture Animation"></iframe>
+      </div>
+    </div>
 
-  <p style="margin-top:12px;font-size:13px;color:var(--text-muted);text-align:center;">
-    Example observer architecture showing Earth-, lunar-, and space-based sensors for persistent cislunar surveillance.
-  </p>
-</div>
-        
-  
     <hr class="divider" style="margin-bottom:80px;"/>
 
-    <!-- Thrust B -->
+    <!-- ═══ THRUST 02 ═══ -->
     <div style="margin-bottom:80px;">
-      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Multi-Sensor Data Fusion for <span style="color:var(--accent)">Space Domain Awareness</span></h2>
+      <span class="thrust-label">Thrust 02</span>
+      <h2 style="font-size:clamp(20px,2.8vw,32px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px;">
+        Multi-Sensor Data Fusion for <span style="color:var(--accent)">Space Domain Awareness</span>
+      </h2>
       <p class="thrust-intro">Combining heterogeneous sensor observations into a unified operational picture of space objects.</p>
-      <div style="display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:center;margin-top:24px;">
-        <div class="thrust-fig">
-          <div class="icon">📡</div>
-          
-        <div>
-          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
-            No single sensing modality can reliably observe all objects in cislunar space. Our research develops data fusion algorithms that integrate optical, radar, and laser-ranging observations to improve orbit determination, object tracking, and uncertainty quantification.
-          </p>
+
+      <div class="thrust-block fig-left">
+        <iframe class="anim-frame" src="../pages/animations/thrust2.html" scrolling="no" loading="lazy" title="Multi-Sensor Fusion Animation"></iframe>
+        <div class="thrust-text">
+          <p>No single sensing modality can reliably observe all objects in cislunar space. Our research develops data fusion algorithms that integrate optical, radar, and laser-ranging observations to improve orbit determination, object tracking, and uncertainty quantification.</p>
           <ul class="bullet-list">
             <li>Fuse optical, radar, and laser-ranging observations for enhanced tracking performance.</li>
             <li>Develop probabilistic methods for uncertainty propagation across heterogeneous sensor data.</li>
@@ -125,15 +212,17 @@
 
     <hr class="divider" style="margin-bottom:80px;"/>
 
-    <!-- Thrust C -->
+    <!-- ═══ THRUST 03 ═══ -->
     <div style="margin-bottom:80px;">
-      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Active Space Debris Mitigation &amp; <span style="color:var(--accent)">Plasma-Based Technologies</span></h2>
+      <span class="thrust-label">Thrust 03</span>
+      <h2 style="font-size:clamp(20px,2.8vw,32px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px;">
+        Active Space Debris Mitigation &amp; <span style="color:var(--accent)">Plasma-Based Technologies</span>
+      </h2>
       <p class="thrust-intro">Developing innovative technologies for sustainable and safe utilization of near-Earth space.</p>
-      <div style="display:grid;grid-template-columns:1fr 220px;gap:40px;align-items:center;margin-top:24px;">
-        <div>
-          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
-            The growing population of orbital debris poses significant risks to satellites and future space missions. Our research investigates plasma-based approaches for active debris mitigation and orbital environment management.
-          </p>
+
+      <div class="thrust-block fig-right">
+        <div class="thrust-text">
+          <p>The growing population of orbital debris poses significant risks to satellites and future space missions. Our research investigates plasma-based approaches for active debris mitigation and orbital environment management.</p>
           <ul class="bullet-list">
             <li>Investigate plasma-ablation techniques for controlled orbital debris removal.</li>
             <li>Model plasma–material interactions for space applications.</li>
@@ -141,267 +230,24 @@
             <li>Support sustainable space operations through advanced mitigation technologies.</li>
           </ul>
         </div>
-        <div class="thrust-fig"><iframe srcdoc="<!DOCTYPE html><html><head><meta charset=&quot;UTF-8&quot;/>
-<style>body,html{margin:0;padding:0;background:#050914;overflow:hidden;}canvas{display:block;width:100%;height:100%;}</style>
-</head><body><canvas id=&quot;c&quot;></canvas><script>
-// Thrust 3 — Active Space Debris Mitigation &amp; Plasma-Based Technologies
-const canvas=document.getElementById('c');
-const ctx=canvas.getContext('2d');
-let W,H,t=0;
-function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
-window.addEventListener('resize',resize);resize();
-
-function lerp(a,b,t){return a+(b-a)*t;}
-function rng(seed){return((Math.sin(seed)*43758.5453)%1+1)%1;}
-
-// Debris pieces
-let debris=[];
-function initDebris(){
-  debris=[];
-  for(let i=0;i<28;i++){
-    const angle=rng(i*3.1)*Math.PI*2;
-    const dist=W*0.24+rng(i*7.3)*W*0.14;
-    debris.push({
-      id:i,
-      x:W*0.38+Math.cos(angle)*dist,
-      y:H*0.5+Math.sin(angle)*dist*(0.35+rng(i*2)*0.15),
-      vx:(rng(i*11)-0.5)*0.4,
-      vy:(rng(i*13)-0.5)*0.15,
-      size:1.5+rng(i*5)*4,
-      angle:rng(i)*Math.PI*2,
-      spin:(rng(i*9)-0.5)*0.03,
-      alpha:0.4+rng(i*17)*0.5,
-      mitigated:false,
-      deorbitProgress:0,
-      glowing:0,
-    });
-  }
-}
-initDebris();
-
-// Mitigation spacecraft orbit
-const scOrbitRx=()=>W*0.18;
-const scOrbitRy=()=>H*0.08;
-const scX=()=>W*0.38+Math.cos(t*0.25)*scOrbitRx();
-const scY=()=>H*0.5+Math.sin(t*0.25)*scOrbitRy();
-
-let plasmaParticles=[];
-let mitigationCooldown=0;
-let trailPoints=[];
-
-function drawEarth(){
-  const x=W*0.38, y=H*0.5, r=Math.min(W,H)*0.15;
-  const glow=ctx.createRadialGradient(x,y,r*0.8,x,y,r*1.6);
-  glow.addColorStop(0,'rgba(20,80,200,0.12)'); glow.addColorStop(1,'rgba(20,80,200,0)');
-  ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(x,y,r*1.6,0,Math.PI*2); ctx.fill();
-  const g=ctx.createRadialGradient(x-r*0.3,y-r*0.3,r*0.1,x,y,r);
-  g.addColorStop(0,'#2a70c0'); g.addColorStop(0.6,'#144080'); g.addColorStop(1,'#081830');
-  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
-  // atmo
-  ctx.strokeStyle='rgba(80,160,255,0.15)'; ctx.lineWidth=4;
-  ctx.beginPath(); ctx.arc(x,y,r+3,0,Math.PI*2); ctx.stroke();
-  ctx.strokeStyle='rgba(60,140,255,0.35)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
-}
-
-function drawSpacecraft(){
-  const x=scX(), y=scY();
-  const angle=Math.atan2(Math.sin(t*0.25)*scOrbitRy(),Math.cos(t*0.25)*scOrbitRx());
-  ctx.save(); ctx.translate(x,y); ctx.rotate(angle);
-  // body
-  ctx.fillStyle='#c0c8d8';
-  ctx.fillRect(-8,-5,16,10);
-  // solar panels
-  ctx.fillStyle='rgba(80,120,200,0.8)';
-  ctx.fillRect(-18,-2,8,4);
-  ctx.fillRect(10,-2,8,4);
-  // plasma emitter nozzle
-  ctx.fillStyle='rgba(140,180,255,0.9)';
-  ctx.beginPath(); ctx.arc(12,0,3,0,Math.PI*2); ctx.fill();
-  // operational glow
-  const pulse=0.3+0.3*Math.sin(t*2);
-  ctx.fillStyle=`rgba(100,160,255,${pulse})`;
-  ctx.beginPath(); ctx.arc(12,0,5,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-  // orbit trail
-  trailPoints.push({x,y,alpha:0.6});
-  if(trailPoints.length>60)trailPoints.shift();
-}
-
-function drawPlasma(){
-  const x=scX(), y=scY();
-  const angle=Math.atan2(Math.sin(t*0.25)*scOrbitRy(),Math.cos(t*0.25)*scOrbitRx());
-  // find nearest non-mitigated debris
-  let target=null, minD=W*0.25;
-  debris.forEach(d=>{
-    if(d.mitigated)return;
-    const dx=d.x-x, dy=d.y-y, dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<minD){minD=dist;target=d;}
-  });
-  if(!target)return;
-  const toAngle=Math.atan2(target.y-y,target.x-x);
-  // plasma plume
-  const firingCycle=Math.sin(t*1.5);
-  if(firingCycle>0 &amp;&amp; minD<W*0.22){
-    const pulseN=Math.floor(t*6)%8;
-    for(let i=0;i<3;i++){
-      const pct=(i/3+t*3)%1;
-      const px=lerp(x,target.x,pct*0.8);
-      const py=lerp(y,target.y,pct*0.8);
-      const spread=(1-pct)*12;
-      const alpha=(1-pct)*0.6*firingCycle;
-      ctx.fillStyle=`rgba(120,140,255,${alpha})`;
-      ctx.beginPath(); ctx.arc(px+(Math.random()-0.5)*spread,py+(Math.random()-0.5)*spread,2+pct*4,0,Math.PI*2); ctx.fill();
-    }
-    // pulsing jet line
-    const p=0.4+0.4*firingCycle;
-    const g=ctx.createLinearGradient(x,y,target.x,target.y);
-    g.addColorStop(0,`rgba(140,160,255,${p*0.6})`);
-    g.addColorStop(0.6,`rgba(100,120,220,${p*0.3})`);
-    g.addColorStop(1,'rgba(100,120,220,0)');
-    ctx.strokeStyle=g; ctx.lineWidth=3;
-    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(target.x,target.y); ctx.stroke();
-    // mark debris as glowing
-    target.glowing=Math.min(1,target.glowing+0.04);
-    if(target.glowing>0.7 &amp;&amp; !target.mitigated){
-      target.mitigated=true;
-    }
-  } else {
-    if(target)target.glowing=Math.max(0,target.glowing-0.02);
-  }
-  // spawn plasma particles
-  if(target &amp;&amp; firingCycle>0.3 &amp;&amp; minD<W*0.22){
-    for(let i=0;i<2;i++){
-      plasmaParticles.push({
-        x:lerp(x,target.x,0.3+Math.random()*0.4),
-        y:lerp(y,target.y,0.3+Math.random()*0.4),
-        vx:(Math.random()-0.5)*1.5,
-        vy:(Math.random()-0.5)*1.5,
-        alpha:0.8, size:1.5+Math.random()*2,
-        color:`rgba(${100+Math.random()*60|0},${120+Math.random()*60|0},255,`
-      });
-    }
-  }
-}
-
-function updateDebris(){
-  debris.forEach(d=>{
-    if(!d.mitigated){
-      d.x+=d.vx; d.y+=d.vy; d.angle+=d.spin;
-      // wrap
-      if(d.x<0)d.x=W; if(d.x>W)d.x=0;
-    } else {
-      d.deorbitProgress+=0.002;
-      // spiral inward
-      const ex=W*0.38, ey=H*0.5;
-      d.x=lerp(d.x,ex+Math.cos(d.angle)*Math.max(0,(1-d.deorbitProgress)*80),0.01);
-      d.y=lerp(d.y,ey+Math.sin(d.angle)*Math.max(0,(1-d.deorbitProgress)*30),0.01);
-      d.alpha=Math.max(0,1-d.deorbitProgress*2);
-      d.angle+=0.02;
-    }
-  });
-  debris=debris.filter(d=>d.alpha>0.02);
-}
-
-function drawDebris(){
-  debris.forEach(d=>{
-    ctx.save(); ctx.translate(d.x,d.y); ctx.rotate(d.angle);
-    const col=d.glowing>0?`rgba(${180+d.glowing*75|0},${180+d.glowing*20|0},${200+d.glowing*55|0},${d.alpha})`:`rgba(160,165,175,${d.alpha})`;
-    ctx.fillStyle=col;
-    // irregular shapes
-    const s=d.size;
-    ctx.beginPath();
-    ctx.moveTo(-s,0); ctx.lineTo(-s*0.3,-s*1.2); ctx.lineTo(s*0.8,-s*0.5);
-    ctx.lineTo(s,-s*0.1); ctx.lineTo(s*0.4,s); ctx.lineTo(-s*0.5,s*0.7);
-    ctx.closePath(); ctx.fill();
-    if(d.glowing>0.2){
-      ctx.strokeStyle=`rgba(140,160,255,${d.glowing*0.6})`; ctx.lineWidth=0.8;
-      ctx.stroke();
-    }
-    ctx.restore();
-    // deorbit trail
-    if(d.mitigated &amp;&amp; d.deorbitProgress>0){
-      ctx.strokeStyle=`rgba(100,180,255,${Math.min(d.alpha,0.3)})`; ctx.lineWidth=0.8;
-      ctx.setLineDash([2,4]);
-      ctx.beginPath(); ctx.moveTo(d.x,d.y);
-      ctx.lineTo(d.x+(W*0.38-d.x)*0.15,d.y+(H*0.5-d.y)*0.15);
-      ctx.stroke(); ctx.setLineDash([]);
-    }
-  });
-}
-
-function drawPlasmaParticles(){
-  plasmaParticles=plasmaParticles.filter(p=>p.alpha>0.03);
-  plasmaParticles.forEach(p=>{
-    p.x+=p.vx; p.y+=p.vy; p.alpha-=0.018;
-    ctx.fillStyle=p.color+p.alpha+')';
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
-  });
-}
-
-function drawOrbitPath(){
-  const x=W*0.38, y=H*0.5;
-  ctx.strokeStyle='rgba(92,200,255,0.1)'; ctx.lineWidth=0.8;
-  ctx.setLineDash([4,6]);
-  ctx.beginPath(); ctx.ellipse(x,y,scOrbitRx(),scOrbitRy(),0,0,Math.PI*2); ctx.stroke();
-  ctx.setLineDash([]);
-}
-
-function drawTrail(){
-  trailPoints.forEach((p,i)=>{
-    p.alpha-=0.012;
-    ctx.fillStyle=`rgba(92,200,255,${Math.max(0,p.alpha)})`;
-    ctx.beginPath(); ctx.arc(p.x,p.y,1.2,0,Math.PI*2); ctx.fill();
-  });
-  trailPoints=trailPoints.filter(p=>p.alpha>0);
-}
-
-// Overlay
-function drawOverlay(){
-  const mitigated=28-debris.length;
-  ctx.fillStyle='rgba(92,200,255,0.5)';
-  ctx.font=`${Math.max(9,H*0.018)}px monospace`;
-  ctx.fillText(`Plasma Mitigation System — Active`,W*0.04,H*0.06);
-  ctx.fillStyle='rgba(100,220,120,0.6)';
-  ctx.fillText(`Objects mitigated: ${mitigated}`,W*0.04,H*0.1);
-}
-
-function frame(){
-  t+=0.016;
-  ctx.fillStyle='#050914'; ctx.fillRect(0,0,W,H);
-  drawEarth();
-  drawOrbitPath();
-  drawTrail();
-  updateDebris();
-  drawDebris();
-  drawPlasma();
-  drawPlasmaParticles();
-  drawSpacecraft();
-  drawOverlay();
-  // respawn if all mitigated
-  if(debris.length<4){setTimeout(initDebris,2000);}
-  requestAnimationFrame(frame);
-}
-frame();
-</script></body></html>
-" style="width:100%;height:320px;border:none;border-radius:8px;display:block;" scrolling="no" loading="lazy"></iframe></div>
+        <iframe class="anim-frame" src="../pages/animations/thrust3.html" scrolling="no" loading="lazy" title="Plasma Debris Mitigation Animation"></iframe>
       </div>
     </div>
 
     <hr class="divider" style="margin-bottom:80px;"/>
 
-    <!-- Thrust D -->
-    <div>
-      <h2 style="font-size:clamp(22px,3vw,34px);font-weight:700;margin-bottom:10px;letter-spacing:-.02em;">Space Missions, Optical Payloads &amp; <span style="color:var(--accent)">Student Flight Experiments</span></h2>
+    <!-- ═══ THRUST 04 ═══ -->
+    <div style="margin-bottom:80px;">
+      <span class="thrust-label">Thrust 04</span>
+      <h2 style="font-size:clamp(20px,2.8vw,32px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px;">
+        Space Missions, Optical Payloads &amp; <span style="color:var(--accent)">Student Flight Experiments</span>
+      </h2>
       <p class="thrust-intro">Transforming research into flight opportunities through international collaborations.</p>
-      <div style="display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:center;margin-top:24px;">
-        <div class="thrust-fig">
-          <div class="icon">🛸</div>
-          
-        <div>
-          <p style="color:var(--text-muted);font-size:15px;line-height:1.8;">
-            Our lab partners with academic and international organizations to develop spaceflight payloads that advance Space Domain Awareness while providing hands-on opportunities for students.
-          </p>
+
+      <div class="thrust-block fig-left">
+        <iframe class="anim-frame" src="../pages/animations/thrust4.html" scrolling="no" loading="lazy" title="Space Missions Animation"></iframe>
+        <div class="thrust-text">
+          <p>Our lab partners with academic and international organizations to develop spaceflight payloads that advance Space Domain Awareness while providing hands-on opportunities for students.</p>
           <ul class="bullet-list">
             <li>Develop an optical payload for Space Domain Awareness aboard the Global Girrlz SAT mission with Space Kidz India.</li>
             <li>Design compact imaging systems for on-orbit observation and object detection.</li>
@@ -416,16 +262,14 @@ frame();
   </div>
 </section>
 
-<!-- Funded Research -->
+<!-- FUNDED RESEARCH -->
 <section class="section-sm" style="position:relative;z-index:1;background:var(--bg-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
-    <span class="tag-plain" style="margin-bottom:20px;">Funded Research</span>
-    <div style="display:grid;grid-template-columns:1fr;gap:24px;">
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:28px;border-left:3px solid var(--accent2);">
-        <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--accent2);text-transform:uppercase;margin-bottom:10px;">ERAU FIRST Grant · Jul 2026 – Jun 2027</p>
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:10px;line-height:1.4;">Optimized Space-Based Observer Architectures for Sustained Cislunar Monitoring</h3>
-        <p style="font-size:13px;color:var(--text-muted);line-height:1.65;">Faculty Innovative Research in Science and Technology (FIRST) program, Embry-Riddle Aeronautical University. Sole PI: Dr. Surabhi Bhadauria.</p>
-      </div>
+    <span class="thrust-label" style="margin-bottom:20px;">Funded Research</span>
+    <div class="funded-card">
+      <div class="funded-label">ERAU FIRST Grant &nbsp;·&nbsp; Jul 2026 – Jun 2027</div>
+      <h3>Optimized Space-Based Observer Architectures for Sustained Cislunar Monitoring</h3>
+      <p>Faculty Innovative Research in Science and Technology (FIRST) program, Embry-Riddle Aeronautical University. Sole PI: Dr. Surabhi Bhadauria.</p>
     </div>
   </div>
 </section>
@@ -433,7 +277,9 @@ frame();
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <div class="footer-brand"><strong>SOAR Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL</div>
+      <div class="footer-brand">
+        <strong>SOAR Lab</strong> — Embry-Riddle Aeronautical University, Daytona Beach, FL
+      </div>
       <div class="footer-links">
         <a href="research.html">Research</a>
         <a href="people.html">People</a>
