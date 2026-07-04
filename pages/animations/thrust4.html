@@ -1,0 +1,283 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+<style>body,html{margin:0;padding:0;background:#050914;overflow:hidden;}canvas{display:block;width:100%;height:100%;}</style>
+</head><body><canvas id="c"></canvas><script>
+// Thrust 4 — Space Missions, Optical Payloads & Student Flight Experiments
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,t=0;
+function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+window.addEventListener('resize',resize);resize();
+function lerp(a,b,t){return a+(b-a)*t;}
+
+// Mission phase cycles every ~20s
+// Phases: 0=design, 1=integration, 2=launch, 3=on-orbit, (loop)
+const PHASE_DUR=320; // frames each
+
+let dataPackets=[];
+let detectionBoxes=[];
+
+function getPhase(){return Math.floor(t/PHASE_DUR*4)%4;}
+function getPhasePct(){return (t%(PHASE_DUR/4))/(PHASE_DUR/4);}
+
+// Satellite position (orbiting Earth on right side)
+function satPos(tt){
+  const cx=W*0.72, cy=H*0.5;
+  return {
+    x:cx+Math.cos(tt*0.18)*W*0.14,
+    y:cy+Math.sin(tt*0.18)*H*0.1
+  };
+}
+// Target object
+function targetPos(tt){
+  const cx=W*0.78, cy=H*0.38;
+  return {x:cx+Math.cos(tt*0.28)*W*0.07, y:cy+Math.sin(tt*0.28)*H*0.06};
+}
+
+// Left: payload workbench
+function drawWorkbench(){
+  const x=W*0.12, y=H*0.5;
+  const phase=getPhase(), pct=getPhasePct();
+  // bench surface
+  ctx.fillStyle='rgba(30,40,60,0.6)';
+  ctx.fillRect(x-60,y+20,120,8);
+  // payload components (telescope cylinder)
+  ctx.save(); ctx.translate(x,y);
+  // housing
+  ctx.fillStyle='#c0c8d8';
+  ctx.fillRect(-18,-30,36,55);
+  // lens aperture
+  ctx.fillStyle='rgba(40,80,160,0.8)';
+  ctx.beginPath(); ctx.ellipse(0,-32,14,5,0,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(92,200,255,0.6)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.ellipse(0,-32,14,5,0,0,Math.PI*2); ctx.stroke();
+  // baffle lines
+  ctx.strokeStyle='rgba(120,130,150,0.5)'; ctx.lineWidth=0.8;
+  [-20,-10,0,10].forEach(yy=>{
+    ctx.beginPath(); ctx.moveTo(-18,yy); ctx.lineTo(18,yy); ctx.stroke();
+  });
+  // circuit board hints
+  ctx.strokeStyle='rgba(80,200,120,0.4)'; ctx.lineWidth=0.8;
+  [[-10,5],[5,15],[-8,20]].forEach(([bx,by])=>{
+    ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(bx+8,by); ctx.lineTo(bx+8,by+6); ctx.stroke();
+    ctx.beginPath(); ctx.arc(bx+8,by+6,2,0,Math.PI*2); ctx.fill();
+  });
+  // glow when active
+  if(phase===0||phase===1){
+    const pulse=0.2+0.15*Math.sin(t*1.5);
+    ctx.fillStyle=`rgba(92,200,255,${pulse})`;
+    ctx.beginPath(); ctx.ellipse(0,-32,16,7,0,0,Math.PI*2); ctx.fill();
+  }
+  ctx.restore();
+  // labels
+  const lpha=phase<=1?0.7:0.3;
+  ctx.fillStyle=`rgba(92,200,255,${lpha})`;
+  ctx.font=`${Math.max(8,H*0.016)}px monospace`;
+  ctx.textAlign='center';
+  ctx.fillText('Payload Design',x,y+40);
+  if(phase===1){
+    ctx.fillStyle='rgba(255,200,80,0.7)';
+    ctx.fillText('Integration & Test',x,y+56);
+  }
+  ctx.textAlign='left';
+}
+
+// Center: mission transition / satellite bus
+function drawSatBus(){
+  const x=W*0.42, y=H*0.5;
+  const phase=getPhase(), pct=getPhasePct();
+  // orbit path
+  ctx.strokeStyle='rgba(92,200,255,0.08)'; ctx.lineWidth=0.8;
+  ctx.setLineDash([3,5]);
+  ctx.beginPath(); ctx.ellipse(W*0.72,H*0.5,W*0.14,H*0.1,0,0,Math.PI*2); ctx.stroke();
+  ctx.setLineDash([]);
+  if(phase===2){
+    // launch arc
+    const launchPct=pct;
+    const lx=lerp(x,W*0.72,launchPct);
+    const ly=lerp(y,H*0.5,launchPct)-Math.sin(launchPct*Math.PI)*H*0.25;
+    // arc trail
+    ctx.strokeStyle='rgba(255,200,80,0.35)'; ctx.lineWidth=1.2;
+    ctx.setLineDash([3,4]);
+    ctx.beginPath();
+    for(let i=0;i<40;i++){
+      const p=launchPct*(1-i/40);
+      const lxp=lerp(x,W*0.72,p);
+      const lyp=lerp(y,H*0.5,p)-Math.sin(p*Math.PI)*H*0.25;
+      i===0?ctx.moveTo(lxp,lyp):ctx.lineTo(lxp,lyp);
+    }
+    ctx.stroke(); ctx.setLineDash([]);
+    // satellite at launch position
+    drawCubeSat(lx,ly,t*1.5);
+    ctx.fillStyle='rgba(255,200,80,0.7)';
+    ctx.font=`${Math.max(8,H*0.016)}px monospace`;
+    ctx.textAlign='center';
+    ctx.fillText('Flight Opportunity',lx,ly-22);
+    ctx.textAlign='left';
+  } else {
+    // show design→flight arrow
+    ctx.strokeStyle='rgba(92,200,255,0.2)'; ctx.lineWidth=1;
+    ctx.setLineDash([4,5]);
+    ctx.beginPath(); ctx.moveTo(W*0.22,y); ctx.lineTo(W*0.62,y); ctx.stroke();
+    ctx.setLineDash([]);
+    // arrowhead
+    ctx.fillStyle='rgba(92,200,255,0.3)';
+    ctx.beginPath(); ctx.moveTo(W*0.62,y); ctx.lineTo(W*0.62-12,y-6); ctx.lineTo(W*0.62-12,y+6); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='rgba(92,200,255,0.3)';
+    ctx.font=`${Math.max(8,H*0.015)}px monospace`;
+    ctx.textAlign='center';
+    ctx.fillText('Mission Transition',W*0.42,y-14);
+    ctx.textAlign='left';
+  }
+}
+
+function drawCubeSat(x,y,rot){
+  ctx.save(); ctx.translate(x,y); ctx.rotate(rot);
+  ctx.fillStyle='#b8c0d0';
+  ctx.fillRect(-9,-9,18,18);
+  ctx.fillStyle='rgba(60,100,180,0.7)';
+  ctx.fillRect(-18,-4,7,8); ctx.fillRect(11,-4,7,8);
+  ctx.strokeStyle='rgba(92,200,255,0.5)'; ctx.lineWidth=0.8;
+  ctx.strokeRect(-9,-9,18,18);
+  // payload aperture glow
+  ctx.fillStyle='rgba(92,200,255,0.6)';
+  ctx.beginPath(); ctx.arc(0,-9,3,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function drawOnOrbit(){
+  const phase=getPhase();
+  const sc=satPos(t);
+  const tgt=targetPos(t);
+  drawCubeSat(sc.x,sc.y,t*0.3);
+  // sensor cone toward target
+  const angle=Math.atan2(tgt.y-sc.y,tgt.x-sc.x);
+  const coneLen=Math.min(W,H)*0.15;
+  const spread=0.2;
+  const pulse=0.3+0.25*Math.sin(t*1.8);
+  const cg=ctx.createLinearGradient(sc.x,sc.y,sc.x+Math.cos(angle)*coneLen,sc.y+Math.sin(angle)*coneLen);
+  cg.addColorStop(0,`rgba(92,200,255,${pulse})`); cg.addColorStop(1,'rgba(92,200,255,0)');
+  ctx.fillStyle=cg;
+  ctx.beginPath();
+  ctx.moveTo(sc.x,sc.y);
+  ctx.lineTo(sc.x+Math.cos(angle-spread)*coneLen,sc.y+Math.sin(angle-spread)*coneLen);
+  ctx.lineTo(sc.x+Math.cos(angle+spread)*coneLen,sc.y+Math.sin(angle+spread)*coneLen);
+  ctx.closePath(); ctx.fill();
+  // target object
+  ctx.fillStyle='rgba(255,200,80,0.9)';
+  ctx.beginPath(); ctx.arc(tgt.x,tgt.y,4,0,Math.PI*2); ctx.fill();
+  // detection box
+  const inCone=true; // simplified
+  if(inCone && Math.sin(t*0.8)>0.3){
+    const boxSize=18+Math.sin(t*2)*4;
+    ctx.strokeStyle='rgba(92,200,255,0.8)'; ctx.lineWidth=1.2;
+    ctx.beginPath();
+    // corner brackets
+    const bx=tgt.x, by=tgt.y, bs=boxSize;
+    const bl=8;
+    [[−bs,−bs,bl,0,0,bl],[bs,−bs,−bl,0,0,bl],[bs,bs,−bl,0,0,−bl],[−bs,bs,bl,0,0,−bl]].forEach(([ox,oy,dx1,dy1,dx2,dy2])=>{
+      ctx.beginPath(); ctx.moveTo(bx+ox+dx1,by+oy); ctx.lineTo(bx+ox,by+oy); ctx.lineTo(bx+ox,by+oy+dy2); ctx.stroke();
+    });
+    if(Math.random()<0.01){
+      dataPackets.push({x:tgt.x,y:tgt.y,tx:W*0.25,ty:H*0.85,alpha:1,color:'#5CC8FF'});
+    }
+  }
+  // data downlink to ground
+  if(Math.random()<0.01){
+    dataPackets.push({x:sc.x,y:sc.y,tx:W*0.1,ty:H*0.88,alpha:1,color:'#5CC8FF'});
+  }
+  // on-orbit label
+  if(phase===3||phase===2){
+    ctx.fillStyle='rgba(92,200,255,0.6)';
+    ctx.font=`${Math.max(8,H*0.015)}px monospace`;
+    ctx.textAlign='center';
+    ctx.fillText('On-Orbit Imaging',sc.x,sc.y-26);
+    ctx.textAlign='left';
+  }
+}
+
+function drawGroundStation(){
+  const x=W*0.12, y=H*0.84;
+  // dish
+  ctx.strokeStyle='rgba(92,200,255,0.5)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.arc(x,y,12,Math.PI,0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y+14); ctx.stroke();
+  // data reception glow
+  const p=0.3+0.3*Math.sin(t*2);
+  ctx.fillStyle=`rgba(92,200,255,${p})`;
+  ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(92,200,255,0.5)';
+  ctx.font=`${Math.max(8,H*0.015)}px monospace`;
+  ctx.textAlign='center';
+  ctx.fillText('Data Downlink',x,y+28);
+  ctx.textAlign='left';
+}
+
+function drawCollabNetwork(){
+  // abstract global connection lines
+  const nodes=[
+    {x:W*0.08,y:H*0.2,label:'ERAU'},
+    {x:W*0.82,y:H*0.18,label:'Space Kidz India'},
+    {x:W*0.88,y:H*0.75,label:'Partners'},
+  ];
+  nodes.forEach((n,i)=>{
+    ctx.fillStyle='rgba(92,200,255,0.4)';
+    ctx.beginPath(); ctx.arc(n.x,n.y,4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='rgba(92,200,255,0.4)';
+    ctx.font=`${Math.max(7,H*0.014)}px monospace`;
+    ctx.fillText(n.label,n.x+8,n.y+4);
+    nodes.forEach((m,j)=>{
+      if(j<=i)return;
+      const p=0.12+0.08*Math.sin(t*0.4+i+j);
+      ctx.strokeStyle=`rgba(92,200,255,${p})`; ctx.lineWidth=0.6;
+      ctx.setLineDash([3,6]);
+      ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(m.x,m.y); ctx.stroke();
+      ctx.setLineDash([]);
+    });
+  });
+}
+
+function drawDataPackets(){
+  dataPackets=dataPackets.filter(p=>p.alpha>0.04);
+  dataPackets.forEach(p=>{
+    p.x=lerp(p.x,p.tx,0.03);
+    p.y=lerp(p.y,p.ty,0.03);
+    p.alpha-=0.013;
+    ctx.fillStyle=`rgba(92,200,255,${p.alpha})`;
+    ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+  });
+}
+
+function drawMissionTimeline(){
+  const phases=['Payload Design','Integration & Test','Flight Opportunity','On-Orbit Imaging'];
+  const cur=getPhase();
+  const x=W*0.3, y=H*0.08;
+  const w=(W*0.42)/4;
+  phases.forEach((ph,i)=>{
+    const active=i===cur;
+    ctx.fillStyle=active?'rgba(92,200,255,0.15)':'rgba(92,200,255,0.04)';
+    ctx.fillRect(x+i*w,y-14,w-2,18);
+    ctx.strokeStyle=active?'rgba(92,200,255,0.6)':'rgba(92,200,255,0.15)';
+    ctx.lineWidth=active?1.2:0.5;
+    ctx.strokeRect(x+i*w,y-14,w-2,18);
+    ctx.fillStyle=active?'rgba(92,200,255,0.9)':'rgba(92,200,255,0.3)';
+    ctx.font=`${Math.max(7,H*0.013)}px monospace`;
+    ctx.textAlign='center';
+    ctx.fillText(ph,x+i*w+w/2,y+1);
+  });
+  ctx.textAlign='left';
+}
+
+function frame(){
+  t+=0.016;
+  ctx.fillStyle='#050914'; ctx.fillRect(0,0,W,H);
+  drawCollabNetwork();
+  drawMissionTimeline();
+  drawWorkbench();
+  drawSatBus();
+  drawOnOrbit();
+  drawGroundStation();
+  drawDataPackets();
+  requestAnimationFrame(frame);
+}
+frame();
+</script></body></html>

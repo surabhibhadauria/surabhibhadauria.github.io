@@ -1,0 +1,223 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+<style>body,html{margin:0;padding:0;background:#050914;overflow:hidden;}canvas{display:block;width:100%;height:100%;}</style>
+</head><body><canvas id="c"></canvas><script>
+// Thrust 2 — Multi-Sensor Data Fusion
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W,H,t=0;
+function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+window.addEventListener('resize',resize);resize();
+
+function lerp(a,b,t){return a+(b-a)*t;}
+
+// Sensor positions (left side)
+const getSensors=()=>[
+  {x:W*0.08, y:H*0.22, type:'optical', color:'#4488ff', label:'Optical'},
+  {x:W*0.08, y:H*0.42, type:'radar',   color:'#22cccc', label:'Radar'},
+  {x:W*0.08, y:H*0.62, type:'laser',   color:'#44cc66', label:'Laser'},
+  {x:W*0.08, y:H*0.80, type:'space',   color:'#ddddff', label:'Space'},
+];
+const fusionX=()=>W*0.52;
+const fusionY=()=>H*0.5;
+const fusionR=()=>Math.min(W,H)*0.065;
+
+let packets=[];
+let ellipses=[]; // uncertainty ellipses
+let fusionPhase=0;
+
+// spacecraft trajectory
+function scPos(tt){
+  const cx=W*0.7, cy=H*0.5;
+  const rx=W*0.18, ry=H*0.22;
+  return {x:cx+Math.cos(tt*0.18)*rx, y:cy+Math.sin(tt*0.18)*ry};
+}
+
+function drawSensor(s,idx){
+  // base
+  ctx.fillStyle=s.color;
+  ctx.beginPath();
+  if(s.type==='radar'){
+    // dish shape
+    ctx.arc(s.x,s.y,7,Math.PI,0);
+    ctx.fill();
+    ctx.strokeStyle=s.color; ctx.lineWidth=1.5;
+    const sweep=t*0.8+idx;
+    ctx.beginPath();
+    ctx.moveTo(s.x,s.y);
+    ctx.lineTo(s.x+Math.cos(sweep)*30,s.y+Math.sin(sweep)*30);
+    ctx.stroke();
+    // radar rings
+    [20,35].forEach(r=>{
+      const p=0.3+0.3*Math.sin(t*1.2+r/10);
+      ctx.strokeStyle=`rgba(34,204,204,${p})`; ctx.lineWidth=0.8;
+      ctx.beginPath(); ctx.arc(s.x,s.y,r,Math.PI,0); ctx.stroke();
+    });
+  } else {
+    ctx.arc(s.x,s.y,5,0,Math.PI*2); ctx.fill();
+  }
+  // label
+  ctx.fillStyle=`rgba(${s.color==='#4488ff'?'100,150,255':'s.color==='#22cccc'?'50,200,200':'s.color==='#44cc66'?'80,200,120':'180,180,220'},0.8)`;
+  ctx.fillStyle=s.color+'cc';
+  ctx.font=`${Math.max(8,H*0.018)}px monospace`;
+  ctx.fillText(s.label,s.x+10,s.y+4);
+}
+
+function drawBeamToSC(s,sc,idx){
+  const p=0.2+0.2*Math.sin(t*0.7+idx*1.3);
+  if(s.type==='optical'){
+    const g=ctx.createLinearGradient(s.x,s.y,sc.x,sc.y);
+    g.addColorStop(0,`rgba(68,136,255,${p})`); g.addColorStop(1,'rgba(68,136,255,0)');
+    ctx.strokeStyle=g; ctx.lineWidth=6;
+    ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(sc.x,sc.y); ctx.stroke();
+  } else if(s.type==='laser'){
+    const dash=Math.floor(t*8+idx)%8>4?[4,4]:[];
+    ctx.setLineDash(dash);
+    ctx.strokeStyle=`rgba(68,204,102,${p*2})`; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(sc.x,sc.y); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+}
+
+function spawnPackets(){
+  const ss=getSensors();
+  ss.forEach((s,i)=>{
+    if(Math.random()<0.018){
+      packets.push({x:s.x,y:s.y,tx:fusionX(),ty:fusionY(),alpha:1,color:s.color,prog:0});
+    }
+  });
+}
+
+function drawPackets(){
+  packets=packets.filter(p=>p.alpha>0.04);
+  packets.forEach(p=>{
+    p.prog+=0.022;
+    p.x=lerp(p.x,p.tx,0.04);
+    p.y=lerp(p.y,p.ty,0.04);
+    p.alpha-=0.014;
+    ctx.fillStyle=p.color+Math.round(p.alpha*255).toString(16).padStart(2,'0');
+    ctx.beginPath(); ctx.arc(p.x,p.y,2.5,0,Math.PI*2); ctx.fill();
+  });
+}
+
+function drawFusionEngine(){
+  const x=fusionX(),y=fusionY(),r=fusionR();
+  // outer glow
+  const glow=ctx.createRadialGradient(x,y,0,x,y,r*2.2);
+  glow.addColorStop(0,'rgba(92,200,255,0.1)'); glow.addColorStop(1,'rgba(92,200,255,0)');
+  ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(x,y,r*2.2,0,Math.PI*2); ctx.fill();
+  // concentric rings
+  [2,1.5,1.1,0.7].forEach((m,i)=>{
+    const p=0.08+i*0.07+0.04*Math.sin(t*1.5+i);
+    ctx.strokeStyle=`rgba(92,200,255,${p})`; ctx.lineWidth=0.8+i*0.3;
+    ctx.beginPath(); ctx.arc(x,y,r*m,0,Math.PI*2); ctx.stroke();
+  });
+  // rotating polygon
+  ctx.save(); ctx.translate(x,y); ctx.rotate(t*0.4);
+  ctx.strokeStyle='rgba(92,200,255,0.4)'; ctx.lineWidth=1.2;
+  ctx.beginPath();
+  for(let i=0;i<6;i++){const a=i*Math.PI/3; i===0?ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r):ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r);}
+  ctx.closePath(); ctx.stroke();
+  ctx.restore();
+  ctx.save(); ctx.translate(x,y); ctx.rotate(-t*0.25);
+  ctx.strokeStyle='rgba(180,220,255,0.2)'; ctx.lineWidth=0.8;
+  ctx.beginPath();
+  for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4; i===0?ctx.moveTo(Math.cos(a)*r*0.7,Math.sin(a)*r*0.7):ctx.lineTo(Math.cos(a)*r*0.7,Math.sin(a)*r*0.7);}
+  ctx.closePath(); ctx.stroke();
+  ctx.restore();
+  // label
+  ctx.fillStyle='rgba(92,200,255,0.65)';
+  ctx.font=`${Math.max(8,H*0.016)}px monospace`;
+  ctx.textAlign='center';
+  ctx.fillText('FUSION ENGINE',x,y+r*2.6);
+  ctx.fillText('Multi-Sensor',x,y-r*2.4);
+  ctx.textAlign='left';
+}
+
+function drawUncertaintyEllipses(sc){
+  // before fusion: large ellipses around SC from each sensor direction
+  const ss=getSensors();
+  const fused=0.5+0.5*Math.sin(t*0.2); // 0=separate, 1=fused
+  ss.forEach((s,i)=>{
+    const angle=Math.atan2(sc.y-s.y,sc.x-s.x)+Math.PI/2;
+    const rx=(40+i*12)*(1-fused*0.75);
+    const ry=(20+i*6)*(1-fused*0.75);
+    const alpha=0.12*(1-fused*0.6);
+    ctx.save(); ctx.translate(sc.x,sc.y); ctx.rotate(angle+i*0.4);
+    ctx.strokeStyle=s.color+Math.round(alpha*2.5*255).toString(16).padStart(2,'0');
+    ctx.lineWidth=0.8;
+    ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle=s.color+Math.round(alpha*255).toString(16).padStart(2,'0');
+    ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  });
+  // fused ellipse (small)
+  const fr=8*(fused);
+  ctx.save(); ctx.translate(sc.x,sc.y);
+  ctx.strokeStyle=`rgba(92,200,255,${0.7*fused})`; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.ellipse(0,0,fr*1.8,fr,0,0,Math.PI*2); ctx.stroke();
+  ctx.fillStyle=`rgba(92,200,255,${0.15*fused})`;
+  ctx.beginPath(); ctx.ellipse(0,0,fr*1.8,fr,0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function drawSpacecraft(sc){
+  // trajectory trail
+  ctx.strokeStyle='rgba(255,200,80,0.15)'; ctx.lineWidth=1.2;
+  ctx.beginPath();
+  for(let i=0;i<40;i++){
+    const p=scPos(t-i*0.3);
+    i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);
+  }
+  ctx.stroke();
+  // predicted orbit (ahead)
+  ctx.strokeStyle='rgba(255,220,120,0.3)'; ctx.lineWidth=0.8;
+  ctx.setLineDash([4,5]);
+  ctx.beginPath();
+  for(let i=0;i<30;i++){
+    const p=scPos(t+i*0.3);
+    i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+  // spacecraft dot
+  ctx.fillStyle='rgba(255,200,80,0.95)';
+  ctx.beginPath(); ctx.arc(sc.x,sc.y,5,0,Math.PI*2); ctx.fill();
+  // tracking ring
+  const pulse=0.5+0.5*Math.sin(t*3);
+  ctx.strokeStyle=`rgba(255,200,80,${pulse*0.6})`; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.arc(sc.x,sc.y,10+pulse*5,0,Math.PI*2); ctx.stroke();
+}
+
+function drawOutgoingTrack(sc){
+  // line from fusion to SC
+  const x=fusionX(),y=fusionY();
+  const pulse=0.3+0.3*Math.sin(t*1.5);
+  ctx.strokeStyle=`rgba(255,200,80,${pulse})`; ctx.lineWidth=1;
+  ctx.setLineDash([5,6]);
+  ctx.beginPath(); ctx.moveTo(x+fusionR(),y); ctx.lineTo(sc.x,sc.y); ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function frame(){
+  t+=0.016; spawnPackets();
+  ctx.fillStyle='#050914'; ctx.fillRect(0,0,W,H);
+  const sc=scPos(t);
+  const ss=getSensors();
+  // beams from sensors to SC
+  ss.forEach((s,i)=>{ drawBeamToSC(s,sc,i); });
+  // sensor connecting lines to fusion
+  ss.forEach(s=>{
+    ctx.strokeStyle=`rgba(92,200,255,0.07)`; ctx.lineWidth=0.6;
+    ctx.setLineDash([3,5]);
+    ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(fusionX(),fusionY()); ctx.stroke();
+    ctx.setLineDash([]);
+  });
+  drawFusionEngine();
+  drawOutgoingTrack(sc);
+  drawSpacecraft(sc);
+  drawUncertaintyEllipses(sc);
+  ss.forEach((s,i)=>drawSensor(s,i));
+  drawPackets();
+  requestAnimationFrame(frame);
+}
+frame();
+</script></body></html>
