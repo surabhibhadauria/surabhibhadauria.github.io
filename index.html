@@ -193,16 +193,13 @@
   var t = 0;
   var startMs = Date.now();
 
-  // Earth center
   var CX = 230, CY = 230;
-  var ER = 52;   // Earth radius
-  var MR = 14;   // Moon radius (smaller, more realistic)
+  var ER = 52;
+  var MR = 14;
+  var MOON_R = 185;
+  var MOON_PERIOD = 28;
 
-  // Moon: circular orbit, far out
-  var MOON_R = 185;   // circular radius
-  var MOON_PERIOD = 28; // seconds per orbit
-
-  // 5 surveillance satellites — CIRCULAR orbits (equal r in all directions)
+  // 5 surveillance satellites — circular orbits
   var SATS = [
     { r: 88,  speed: 0.55, phase: 0,   color:'#4f9cf9' },
     { r: 104, speed: 0.38, phase: 2.1, color:'#4f9cf9' },
@@ -211,85 +208,55 @@
     { r: 138, speed: 0.19, phase: 3.3, color:'#4fdcdc' },
   ];
 
-  // Stars (fixed, twinkling)
+  // Stars
   var STARS = [];
   for (var i = 0; i < 60; i++) {
     STARS.push({
-      x: Math.random()*460,
-      y: Math.random()*460,
-      r: 0.4 + Math.random()*0.9,
+      x: Math.random()*460, y: Math.random()*460,
+      r: 0.4+Math.random()*0.9,
       tw: Math.random()*Math.PI*2,
-      sp: 0.5 + Math.random()*1.8
+      sp: 0.5+Math.random()*1.8
     });
   }
 
-  // 100 debris dots — pre-seed all at once across multiple circular shells
-  var debris = [];
-  function seedDebris() {
+  // 200 Earth debris across multiple shells
+  var earthDebris = [];
+  function seedEarthDebris() {
     var shells = [
-      { r: 72,  count: 14 },
-      { r: 82,  count: 18 },
-      { r: 112, count: 20 },
-      { r: 130, count: 18 },
-      { r: 148, count: 16 },
-      { r: 162, count: 14 },
+      { r:70,  count:28 },
+      { r:80,  count:32 },
+      { r:110, count:36 },
+      { r:128, count:34 },
+      { r:146, count:38 },
+      { r:160, count:32 },
     ];
     shells.forEach(function(sh) {
       for (var i = 0; i < sh.count; i++) {
-        debris.push({
+        earthDebris.push({
           angle: Math.random()*Math.PI*2,
-          r: sh.r + (Math.random()-0.5)*6,
-          speed: (Math.random()>0.5?1:-1)*(0.08+Math.random()*0.22),
-          alpha: 0.3 + Math.random()*0.55,
+          r: sh.r + (Math.random()-0.5)*5,
+          speed: (Math.random()>0.5?1:-1)*(0.07+Math.random()*0.20),
+          alpha: 0.25+Math.random()*0.55,
         });
       }
     });
   }
-  seedDebris();
+  seedEarthDebris();
 
-  // ── draw Earth ──
-  function drawEarth() {
-    // Atmosphere halo
-    var atmo = ctx.createRadialGradient(CX,CY,ER*0.9, CX,CY,ER*1.5);
-    atmo.addColorStop(0,'rgba(40,120,255,0.15)');
-    atmo.addColorStop(1,'rgba(40,120,255,0)');
-    ctx.fillStyle = atmo;
-    ctx.beginPath(); ctx.arc(CX,CY,ER*1.5,0,Math.PI*2); ctx.fill();
-
-    // Body
-    var g = ctx.createRadialGradient(CX-14,CY-14,4, CX,CY,ER);
-    g.addColorStop(0,'#2e80d8');
-    g.addColorStop(0.5,'#154aaa');
-    g.addColorStop(1,'#081838');
-    ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.fill();
-
-    // Continents
-    ctx.save();
-    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.clip();
-    [[-7,-9,12,7,-0.4],[5,-12,7,5,0.3],[15,3,5,9,-0.1],[-11,6,8,5,0.2],[3,11,9,4,0]].forEach(function(c){
-      ctx.save(); ctx.translate(CX+c[0],CY+c[1]); ctx.rotate(c[4]);
-      ctx.fillStyle='rgba(45,165,70,0.54)';
-      ctx.beginPath(); ctx.ellipse(0,0,c[2],c[3],0,0,Math.PI*2); ctx.fill();
-      ctx.restore();
-    });
-    // Cloud wisps
-    ctx.fillStyle='rgba(255,255,255,0.07)';
-    ctx.beginPath(); ctx.ellipse(CX-6,CY-4,12,4,-0.3,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(CX+9,CY+11,9,3,0.2,0,Math.PI*2); ctx.fill();
-    ctx.restore();
-
-    // Rim
-    ctx.strokeStyle='rgba(80,170,255,0.38)'; ctx.lineWidth=1.2;
-    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.stroke();
-
-    // Label
-    ctx.fillStyle='rgba(140,190,255,0.6)'; ctx.font='10px monospace'; ctx.textAlign='center';
-    ctx.fillText('Earth', CX, CY+ER+15);
-    ctx.textAlign='left';
+  // 10 debris circling the Moon (relative to Moon center)
+  var moonDebris = [];
+  function seedMoonDebris() {
+    for (var i = 0; i < 10; i++) {
+      moonDebris.push({
+        angle: (i/10)*Math.PI*2,
+        r: MR*2.2 + Math.random()*MR*0.8,
+        speed: (Math.random()>0.5?1:-1)*(0.25+Math.random()*0.35),
+        alpha: 0.5+Math.random()*0.4,
+      });
+    }
   }
+  seedMoonDebris();
 
-  // ── Moon ──
   function moonPos() {
     var el = (Date.now()-startMs)/1000;
     var a  = (el/MOON_PERIOD)*Math.PI*2;
@@ -303,54 +270,77 @@
     ctx.setLineDash([]);
   }
 
+  function drawEarth() {
+    var atmo = ctx.createRadialGradient(CX,CY,ER*0.9, CX,CY,ER*1.5);
+    atmo.addColorStop(0,'rgba(40,120,255,0.15)');
+    atmo.addColorStop(1,'rgba(40,120,255,0)');
+    ctx.fillStyle=atmo; ctx.beginPath(); ctx.arc(CX,CY,ER*1.5,0,Math.PI*2); ctx.fill();
+
+    var g=ctx.createRadialGradient(CX-14,CY-14,4, CX,CY,ER);
+    g.addColorStop(0,'#2e80d8'); g.addColorStop(0.5,'#154aaa'); g.addColorStop(1,'#081838');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.fill();
+
+    ctx.save();
+    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.clip();
+    [[-7,-9,12,7,-0.4],[5,-12,7,5,0.3],[15,3,5,9,-0.1],[-11,6,8,5,0.2],[3,11,9,4,0]].forEach(function(c){
+      ctx.save(); ctx.translate(CX+c[0],CY+c[1]); ctx.rotate(c[4]);
+      ctx.fillStyle='rgba(45,165,70,0.54)';
+      ctx.beginPath(); ctx.ellipse(0,0,c[2],c[3],0,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    });
+    ctx.fillStyle='rgba(255,255,255,0.07)';
+    ctx.beginPath(); ctx.ellipse(CX-6,CY-4,12,4,-0.3,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(CX+9,CY+11,9,3,0.2,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    ctx.strokeStyle='rgba(80,170,255,0.38)'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.stroke();
+
+    ctx.fillStyle='rgba(140,190,255,0.6)'; ctx.font='10px monospace'; ctx.textAlign='center';
+    ctx.fillText('Earth', CX, CY+ER+15);
+    ctx.textAlign='left';
+  }
+
   function drawMoon(mp) {
-    var r = MR;
-    // Glow
-    var gl = ctx.createRadialGradient(mp.x,mp.y,0, mp.x,mp.y,r*2);
+    var r=MR;
+    var gl=ctx.createRadialGradient(mp.x,mp.y,0, mp.x,mp.y,r*2);
     gl.addColorStop(0,'rgba(150,155,180,0.1)'); gl.addColorStop(1,'rgba(150,155,180,0)');
     ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(mp.x,mp.y,r*2,0,Math.PI*2); ctx.fill();
-    // Body
-    var mg = ctx.createRadialGradient(mp.x-r*0.3,mp.y-r*0.3,r*0.05, mp.x,mp.y,r);
+
+    var mg=ctx.createRadialGradient(mp.x-r*0.3,mp.y-r*0.3,r*0.05, mp.x,mp.y,r);
     mg.addColorStop(0,'#9aa0b2'); mg.addColorStop(0.6,'#565c6e'); mg.addColorStop(1,'#282c3a');
     ctx.fillStyle=mg; ctx.beginPath(); ctx.arc(mp.x,mp.y,r,0,Math.PI*2); ctx.fill();
-    // Craters
+
     [[0.28,0.18,0.12],[-0.22,0.28,0.09],[0.08,-0.3,0.08]].forEach(function(c){
       ctx.fillStyle='rgba(0,0,0,0.22)';
       ctx.beginPath(); ctx.arc(mp.x+c[0]*r,mp.y+c[1]*r,c[2]*r,0,Math.PI*2); ctx.fill();
     });
-    // Rim
     ctx.strokeStyle='rgba(150,155,180,0.2)'; ctx.lineWidth=0.7;
     ctx.beginPath(); ctx.arc(mp.x,mp.y,r,0,Math.PI*2); ctx.stroke();
-    // Label
+
     ctx.fillStyle='rgba(160,170,200,0.55)'; ctx.font='9px monospace'; ctx.textAlign='center';
     ctx.fillText('Moon', mp.x, mp.y+r+12);
     ctx.textAlign='left';
   }
 
-  // ── Lagrange — pulsing circles only, no text ──
-  function drawLagrange(mp) {
-    var l1x=CX+(mp.x-CX)*0.84, l1y=CY+(mp.y-CY)*0.84;
-    var l2x=mp.x+(mp.x-CX)*0.18, l2y=mp.y+(mp.y-CY)*0.18;
-    [[l1x,l1y,0],[l2x,l2y,1.6]].forEach(function(pt){
-      var pulse=0.3+0.35*Math.abs(Math.sin(t*0.9+pt[2]));
-      ctx.strokeStyle='rgba(92,200,255,'+pulse*0.7+')'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.arc(pt[0],pt[1],5,0,Math.PI*2); ctx.stroke();
-      ctx.fillStyle='rgba(92,200,255,'+pulse*0.18+')';
-      ctx.beginPath(); ctx.arc(pt[0],pt[1],5,0,Math.PI*2); ctx.fill();
-    });
-  }
-
-  // ── Debris ──
-  function drawDebris() {
-    debris.forEach(function(d) {
-      var px = CX + Math.cos(d.angle)*d.r;
-      var py = CY + Math.sin(d.angle)*d.r;
+  function drawEarthDebris() {
+    earthDebris.forEach(function(d) {
+      var px=CX+Math.cos(d.angle)*d.r;
+      var py=CY+Math.sin(d.angle)*d.r;
       ctx.fillStyle='rgba(200,205,218,'+d.alpha+')';
       ctx.beginPath(); ctx.arc(px,py,1.4,0,Math.PI*2); ctx.fill();
     });
   }
 
-  // ── Satellites — CIRCULAR orbits, no labels ──
+  function drawMoonDebris(mp) {
+    moonDebris.forEach(function(d) {
+      var px=mp.x+Math.cos(d.angle)*d.r;
+      var py=mp.y+Math.sin(d.angle)*d.r;
+      ctx.fillStyle='rgba(190,195,210,'+d.alpha+')';
+      ctx.beginPath(); ctx.arc(px,py,1.3,0,Math.PI*2); ctx.fill();
+    });
+  }
+
   function drawSatOrbitPath(s) {
     ctx.strokeStyle='rgba(79,156,249,0.07)'; ctx.lineWidth=0.6;
     ctx.setLineDash([3,6]);
@@ -359,20 +349,16 @@
   }
 
   function getSatPos(s) {
-    var a = t*s.speed + s.phase;
-    return { x: CX+Math.cos(a)*s.r, y: CY+Math.sin(a)*s.r };
+    var a=t*s.speed+s.phase;
+    return { x:CX+Math.cos(a)*s.r, y:CY+Math.sin(a)*s.r };
   }
 
   function drawSat(s, pos) {
-    // Glow
     var gl=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,9);
     gl.addColorStop(0,s.color+'50'); gl.addColorStop(1,'rgba(0,0,0,0)');
     ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(pos.x,pos.y,9,0,Math.PI*2); ctx.fill();
-    // Body
     ctx.fillStyle='#c8d0e0'; ctx.fillRect(pos.x-4,pos.y-3,8,6);
-    // Core
     ctx.fillStyle=s.color; ctx.beginPath(); ctx.arc(pos.x,pos.y,2.5,0,Math.PI*2); ctx.fill();
-    // Solar panels
     ctx.strokeStyle=s.color+'cc'; ctx.lineWidth=2.2;
     ctx.beginPath();
     ctx.moveTo(pos.x-4,pos.y); ctx.lineTo(pos.x-12,pos.y);
@@ -383,51 +369,47 @@
     ctx.fillRect(pos.x+5,pos.y-2,7,4);
   }
 
-  // ── Legend ──
   function drawLegend() {
-    var lx=10, ly=H-58;
+    var lx=10, ly=H-46;
     ctx.font='9px monospace';
-    // Satellite
     ctx.fillStyle='#c8d0e0'; ctx.fillRect(lx,ly-3,8,6);
     ctx.strokeStyle='#4f9cf9cc'; ctx.lineWidth=2;
     ctx.beginPath(); ctx.moveTo(lx-5,ly); ctx.lineTo(lx,ly); ctx.moveTo(lx+8,ly); ctx.lineTo(lx+13,ly); ctx.stroke();
     ctx.fillStyle='rgba(160,200,240,0.65)'; ctx.fillText('Surveillance satellite', lx+17, ly+4);
-    // Debris
     ctx.fillStyle='rgba(200,205,218,0.75)';
-    ctx.beginPath(); ctx.arc(lx+4,ly+18,2,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='rgba(160,200,240,0.65)'; ctx.fillText('Space debris', lx+17, ly+22);
+    ctx.beginPath(); ctx.arc(lx+4,ly+17,2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='rgba(160,200,240,0.65)'; ctx.fillText('Space debris', lx+17, ly+21);
   }
 
-  // ── Main loop ──
   function frame() {
     t += 0.016;
-    var elapsed = (Date.now()-startMs)/1000;
+    var elapsed=(Date.now()-startMs)/1000;
 
-    // Update debris angles
-    debris.forEach(function(d){ d.angle += d.speed*0.016; });
+    earthDebris.forEach(function(d){ d.angle+=d.speed*0.016; });
+    moonDebris.forEach(function(d){ d.angle+=d.speed*0.016; });
 
-    // Clear
     ctx.fillStyle='#050914'; ctx.fillRect(0,0,W,H);
 
-    // Stars
     STARS.forEach(function(s){
       var a=0.2+0.6*Math.abs(Math.sin(elapsed*s.sp+s.tw));
       ctx.fillStyle='rgba(220,225,240,'+a+')';
       ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
     });
 
-    var mp = moonPos();
+    var mp=moonPos();
 
     drawMoonPath();
     SATS.forEach(drawSatOrbitPath);
-    drawDebris();
+    drawEarthDebris();
     drawEarth();
+
+    // Draw moon debris before moon so moon renders on top
+    drawMoonDebris(mp);
     drawMoon(mp);
-    drawLagrange(mp);
 
-    SATS.forEach(function(s){ drawSat(s, getSatPos(s)); });
-
+    SATS.forEach(function(s){ drawSat(s,getSatPos(s)); });
     drawLegend();
+
     requestAnimationFrame(frame);
   }
 
