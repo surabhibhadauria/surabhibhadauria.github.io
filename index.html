@@ -48,234 +48,9 @@
         </div>
       </div>
 
-      <!-- Rich Earth-Moon debris field SVG -->
-      <div class="orbit-wrap" style="width:460px;height:460px;">
-        <svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="spaceGrad" cx="50%" cy="50%">
-              <stop offset="0%" stop-color="#0a1628"/>
-              <stop offset="100%" stop-color="#050a12"/>
-            </radialGradient>
-            <radialGradient id="earthGrad" cx="40%" cy="35%">
-              <stop offset="0%" stop-color="#2a6abf"/>
-              <stop offset="40%" stop-color="#1a4a8a"/>
-              <stop offset="100%" stop-color="#0a1f3d"/>
-            </radialGradient>
-            <radialGradient id="earthAtmo" cx="50%" cy="50%">
-              <stop offset="75%" stop-color="rgba(79,140,249,0)"/>
-              <stop offset="100%" stop-color="rgba(79,140,249,0.18)"/>
-            </radialGradient>
-            <radialGradient id="moonGrad" cx="38%" cy="32%">
-              <stop offset="0%" stop-color="#8a8fa0"/>
-              <stop offset="60%" stop-color="#555a6a"/>
-              <stop offset="100%" stop-color="#2a2d38"/>
-            </radialGradient>
-            <radialGradient id="moonAtmo" cx="50%" cy="50%">
-              <stop offset="75%" stop-color="rgba(180,185,200,0)"/>
-              <stop offset="100%" stop-color="rgba(180,185,200,0.08)"/>
-            </radialGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.5" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <filter id="softglow" x="-80%" y="-80%" width="260%" height="260%">
-              <feGaussianBlur stdDeviation="5" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <filter id="debrisfx">
-              <feGaussianBlur stdDeviation="0.6" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <clipPath id="earthClip"><circle cx="105" cy="240" r="68"/></clipPath>
-            <clipPath id="moonClip"><circle cx="360" cy="160" r="38"/></clipPath>
-          </defs>
-
-          <!-- Deep space background -->
-          <circle cx="230" cy="230" r="230" fill="url(#spaceGrad)"/>
-
-          <!-- Background stars (static, tiny) -->
-          <g opacity="0.7">
-            <circle cx="30" cy="20" r="0.6" fill="white"/><circle cx="80" cy="45" r="0.5" fill="white"/>
-            <circle cx="140" cy="15" r="0.7" fill="white"/><circle cx="200" cy="38" r="0.5" fill="white"/>
-            <circle cx="260" cy="12" r="0.6" fill="white"/><circle cx="320" cy="30" r="0.8" fill="white"/>
-            <circle cx="390" cy="18" r="0.5" fill="white"/><circle cx="440" cy="55" r="0.6" fill="white"/>
-            <circle cx="15" cy="90" r="0.7" fill="white"/><circle cx="55" cy="120" r="0.5" fill="white"/>
-            <circle cx="420" cy="90" r="0.6" fill="white"/><circle cx="450" cy="130" r="0.5" fill="white"/>
-            <circle cx="25" cy="170" r="0.5" fill="white"/><circle cx="435" cy="200" r="0.7" fill="white"/>
-            <circle cx="10" cy="300" r="0.6" fill="white"/><circle cx="445" cy="310" r="0.5" fill="white"/>
-            <circle cx="20" cy="380" r="0.7" fill="white"/><circle cx="440" cy="380" r="0.6" fill="white"/>
-            <circle cx="60" cy="430" r="0.5" fill="white"/><circle cx="380" cy="440" r="0.7" fill="white"/>
-            <circle cx="160" cy="448" r="0.5" fill="white"/><circle cx="290" cy="445" r="0.6" fill="white"/>
-            <circle cx="110" cy="60" r="0.5" fill="white"/><circle cx="350" cy="70" r="0.6" fill="white"/>
-            <circle cx="170" cy="80" r="0.4" fill="white"/><circle cx="230" cy="55" r="0.5" fill="white"/>
-          </g>
-
-          <!-- Twinkling stars -->
-          <circle cx="75" cy="75" r="1" fill="white"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.3s" repeatCount="indefinite"/></circle>
-          <circle cx="400" cy="50" r="1.1" fill="white"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.8s" repeatCount="indefinite"/></circle>
-          <circle cx="430" cy="240" r="0.9" fill="white"><animate attributeName="opacity" values="0.4;1;0.4" dur="3.1s" repeatCount="indefinite"/></circle>
-          <circle cx="40" cy="350" r="1" fill="white"><animate attributeName="opacity" values="1;0.2;1" dur="2.7s" repeatCount="indefinite"/></circle>
-          <circle cx="410" cy="420" r="0.8" fill="white"><animate attributeName="opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite"/></circle>
-
-          <!-- Earth-Moon orbital path -->
-          <ellipse cx="210" cy="230" rx="170" ry="58" fill="none" stroke="rgba(79,156,249,0.08)" stroke-width="1" transform="rotate(-8,210,230)"/>
-
-          <!-- LEO debris ring around Earth -->
-          <ellipse cx="105" cy="240" rx="105" ry="32" fill="none" stroke="rgba(79,156,249,0.07)" stroke-width="1.5" transform="rotate(-15,105,240)"/>
-          <ellipse cx="105" cy="240" rx="90" ry="26" fill="none" stroke="rgba(249,168,79,0.06)" stroke-width="1" transform="rotate(10,105,240)"/>
-          <ellipse cx="105" cy="240" rx="120" ry="36" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" transform="rotate(-30,105,240)"/>
-
-          <!-- EARTH -->
-          <circle cx="105" cy="240" r="72" fill="rgba(30,70,140,0.15)" filter="url(#softglow)"/>
-          <circle cx="105" cy="240" r="68" fill="url(#earthGrad)"/>
-          <!-- Ocean texture -->
-          <circle cx="105" cy="240" r="68" fill="rgba(30,100,200,0.15)"/>
-          <!-- Continent shapes -->
-          <ellipse cx="88" cy="222" rx="20" ry="13" fill="rgba(40,160,60,0.55)" transform="rotate(-20,88,222)"/>
-          <ellipse cx="110" cy="215" rx="12" ry="9" fill="rgba(40,160,60,0.45)" transform="rotate(10,110,215)"/>
-          <ellipse cx="125" cy="235" rx="9" ry="14" fill="rgba(40,160,60,0.40)" transform="rotate(-5,125,235)"/>
-          <ellipse cx="82" cy="248" rx="8" ry="6" fill="rgba(40,160,60,0.35)" transform="rotate(15,82,248)"/>
-          <ellipse cx="98" cy="260" rx="13" ry="8" fill="rgba(40,160,60,0.38)" transform="rotate(-10,98,260)"/>
-          <ellipse cx="118" cy="255" rx="7" ry="5" fill="rgba(40,160,60,0.32)"/>
-          <!-- Cloud wisps -->
-          <ellipse cx="92" cy="230" rx="18" ry="5" fill="rgba(255,255,255,0.12)" transform="rotate(-15,92,230)"/>
-          <ellipse cx="115" cy="250" rx="14" ry="4" fill="rgba(255,255,255,0.10)" transform="rotate(5,115,250)"/>
-          <!-- Atmosphere glow -->
-          <circle cx="105" cy="240" r="72" fill="url(#earthAtmo)"/>
-          <circle cx="105" cy="240" r="68" fill="none" stroke="rgba(100,180,255,0.35)" stroke-width="1.5"/>
-
-          <!-- MOON (orbiting) -->
-          <g>
-            <animateTransform attributeName="transform" type="rotate" from="0 210 230" to="360 210 230" dur="22s" repeatCount="indefinite"/>
-            <!-- Moon glow -->
-            <circle cx="360" cy="160" r="42" fill="rgba(150,155,170,0.08)" filter="url(#softglow)"/>
-            <circle cx="360" cy="160" r="38" fill="url(#moonGrad)"/>
-            <!-- Craters -->
-            <circle cx="350" cy="152" r="5" fill="rgba(0,0,0,0.18)"/>
-            <circle cx="370" cy="165" r="3.5" fill="rgba(0,0,0,0.15)"/>
-            <circle cx="355" cy="172" r="4" fill="rgba(0,0,0,0.12)"/>
-            <circle cx="368" cy="150" r="2.5" fill="rgba(0,0,0,0.10)"/>
-            <circle cx="342" cy="165" r="3" fill="rgba(0,0,0,0.13)"/>
-            <!-- Atmosphere -->
-            <circle cx="360" cy="160" r="42" fill="url(#moonAtmo)"/>
-            <circle cx="360" cy="160" r="38" fill="none" stroke="rgba(180,185,200,0.2)" stroke-width="1"/>
-          </g>
-
-          <!-- DEBRIS FIELD — many pieces at various orbits around Earth -->
-          <!-- LEO debris ring 1, fast -->
-          <g><animateTransform attributeName="transform" type="rotate" from="0 105 240" to="360 105 240" dur="4s" repeatCount="indefinite"/>
-            <rect x="205" y="238" width="4" height="2" rx="0.5" fill="rgba(220,220,220,0.8)" transform="rotate(20,207,239)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="60 105 240" to="420 105 240" dur="4s" repeatCount="indefinite"/>
-            <rect x="205" y="238" width="3" height="1.5" rx="0.5" fill="rgba(200,200,210,0.7)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="120 105 240" to="480 105 240" dur="4s" repeatCount="indefinite"/>
-            <circle cx="205" cy="240" r="1.8" fill="rgba(210,210,220,0.75)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="180 105 240" to="540 105 240" dur="4s" repeatCount="indefinite"/>
-            <rect x="205" y="239" width="3.5" height="1.5" rx="0.3" fill="rgba(180,200,220,0.7)" transform="rotate(-15,207,240)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="240 105 240" to="600 105 240" dur="4s" repeatCount="indefinite"/>
-            <circle cx="205" cy="240" r="1.5" fill="rgba(220,210,200,0.8)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="300 105 240" to="660 105 240" dur="4s" repeatCount="indefinite"/>
-            <rect x="205" y="238.5" width="2.5" height="1.5" rx="0.3" fill="rgba(200,215,200,0.7)"/></g>
-
-          <!-- LEO debris ring 2, medium -->
-          <g><animateTransform attributeName="transform" type="rotate" from="30 105 240" to="390 105 240" dur="6.5s" repeatCount="indefinite"/>
-            <circle cx="221" cy="240" r="2" fill="rgba(200,200,210,0.65)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="100 105 240" to="460 105 240" dur="6.5s" repeatCount="indefinite"/>
-            <rect x="220" y="238.5" width="4" height="2" rx="0.5" fill="rgba(210,200,200,0.6)" transform="rotate(35,222,239)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="190 105 240" to="550 105 240" dur="6.5s" repeatCount="indefinite"/>
-            <circle cx="221" cy="240" r="1.6" fill="rgba(220,220,200,0.7)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="260 105 240" to="620 105 240" dur="6.5s" repeatCount="indefinite"/>
-            <rect x="219" y="239" width="3" height="1.5" rx="0.3" fill="rgba(190,210,220,0.65)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="340 105 240" to="700 105 240" dur="6.5s" repeatCount="indefinite"/>
-            <circle cx="221" cy="240" r="2.2" fill="rgba(200,195,210,0.6)"/></g>
-
-          <!-- Outer LEO ring, slow -->
-          <g><animateTransform attributeName="transform" type="rotate" from="0 105 240" to="360 105 240" dur="10s" repeatCount="indefinite"/>
-            <circle cx="235" cy="240" r="2.5" fill="rgba(180,190,210,0.55)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="72 105 240" to="432 105 240" dur="10s" repeatCount="indefinite"/>
-            <rect x="234" y="238" width="4" height="2" rx="0.5" fill="rgba(200,200,190,0.5)" transform="rotate(-25,236,239)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="144 105 240" to="504 105 240" dur="10s" repeatCount="indefinite"/>
-            <circle cx="235" cy="240" r="1.8" fill="rgba(210,200,200,0.55)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="216 105 240" to="576 105 240" dur="10s" repeatCount="indefinite"/>
-            <rect x="233" y="239" width="3.5" height="1.5" rx="0.4" fill="rgba(190,200,215,0.5)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="288 105 240" to="648 105 240" dur="10s" repeatCount="indefinite"/>
-            <circle cx="235" cy="240" r="2" fill="rgba(200,210,200,0.5)"/></g>
-
-          <!-- ACTIVE SATELLITES with solar panels -->
-          <!-- Sat 1 — LEO, blue -->
-          <g filter="url(#glow)">
-            <animateTransform attributeName="transform" type="rotate" from="45 105 240" to="405 105 240" dur="5s" repeatCount="indefinite"/>
-            <circle cx="205" cy="240" r="3" fill="#4f9cf9"/>
-            <rect x="209" y="238.5" width="10" height="3" fill="rgba(79,156,249,0.7)" rx="1"/>
-            <rect x="193" y="238.5" width="10" height="3" fill="rgba(79,156,249,0.7)" rx="1"/>
-          </g>
-          <!-- Sat 2 — higher LEO, gold -->
-          <g filter="url(#glow)">
-            <animateTransform attributeName="transform" type="rotate" from="200 105 240" to="560 105 240" dur="8s" repeatCount="indefinite"/>
-            <circle cx="228" cy="240" r="2.5" fill="#f9a84f"/>
-            <rect x="232" y="238.8" width="8" height="2.5" fill="rgba(249,168,79,0.7)" rx="1"/>
-            <rect x="218" y="238.8" width="8" height="2.5" fill="rgba(249,168,79,0.7)" rx="1"/>
-          </g>
-          <!-- Sat 3 — observer, cyan -->
-          <g filter="url(#glow)">
-            <animateTransform attributeName="transform" type="rotate" from="310 105 240" to="670 105 240" dur="7s" repeatCount="indefinite"/>
-            <circle cx="218" cy="240" r="2.8" fill="#4fdcdc"/>
-            <rect x="222" y="238.6" width="9" height="2.8" fill="rgba(79,220,220,0.65)" rx="1"/>
-            <rect x="207" y="238.6" width="9" height="2.8" fill="rgba(79,220,220,0.65)" rx="1"/>
-          </g>
-
-          <!-- CISLUNAR SPACECRAFT on halo-like path -->
-          <g filter="url(#glow)">
-            <animateTransform attributeName="transform" type="rotate" from="0 310 190" to="360 310 190" dur="9s" repeatCount="indefinite"/>
-            <circle cx="360" cy="105" r="3.5" fill="#4f9cf9"/>
-            <rect x="364" y="103.3" width="9" height="3.5" fill="rgba(79,156,249,0.65)" rx="1"/>
-            <rect x="349" y="103.3" width="9" height="3.5" fill="rgba(79,156,249,0.65)" rx="1"/>
-          </g>
-
-          <!-- Observation beams from Earth satellite to Moon region -->
-          <line x1="105" y1="175" x2="310" y2="145" stroke="rgba(79,220,220,0.2)" stroke-width="1" stroke-dasharray="5,4">
-            <animate attributeName="opacity" values="0.15;0.5;0.15" dur="3.5s" repeatCount="indefinite"/>
-          </line>
-          <line x1="155" y1="210" x2="330" y2="170" stroke="rgba(249,168,79,0.18)" stroke-width="1" stroke-dasharray="4,5">
-            <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4.2s" repeatCount="indefinite"/>
-          </line>
-
-          <!-- Scattered cislunar debris (slower, spread out) -->
-          <g><animateTransform attributeName="transform" type="rotate" from="0 230 230" to="360 230 230" dur="18s" repeatCount="indefinite"/>
-            <circle cx="400" cy="230" r="1.8" fill="rgba(200,200,200,0.5)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="90 230 230" to="450 230 230" dur="25s" repeatCount="indefinite"/>
-            <circle cx="400" cy="230" r="1.4" fill="rgba(220,210,190,0.45)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="180 230 230" to="540 230 230" dur="18s" repeatCount="indefinite"/>
-            <rect x="398" y="229" width="3.5" height="1.5" rx="0.3" fill="rgba(190,200,210,0.4)" transform="rotate(40,400,230)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="270 230 230" to="630 230 230" dur="25s" repeatCount="indefinite"/>
-            <circle cx="400" cy="230" r="2" fill="rgba(200,195,200,0.4)"/></g>
-          <g><animateTransform attributeName="transform" type="rotate" from="45 230 230" to="-315 230 230" dur="30s" repeatCount="indefinite"/>
-            <rect x="398" y="228.5" width="4" height="2" rx="0.4" fill="rgba(210,200,190,0.38)"/></g>
-
-          <!-- L1 / L2 region markers -->
-          <circle cx="250" cy="225" r="3" fill="none" stroke="rgba(79,156,249,0.3)" stroke-width="1" stroke-dasharray="2,2">
-            <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
-          </circle>
-          <text x="254" y="218" fill="rgba(79,156,249,0.6)" font-size="7" font-family="monospace">L1</text>
-
-          <circle cx="420" cy="168" r="3" fill="none" stroke="rgba(79,156,249,0.25)" stroke-width="1" stroke-dasharray="2,2">
-            <animate attributeName="r" values="3;4.5;3" dur="4s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.4;0.9;0.4" dur="4s" repeatCount="indefinite"/>
-          </circle>
-          <text x="425" y="164" fill="rgba(79,156,249,0.5)" font-size="7" font-family="monospace">L2</text>
-
-          <!-- Labels -->
-          <text x="68" y="316" fill="rgba(150,190,255,0.65)" font-size="9" font-family="monospace" text-anchor="middle">Earth</text>
-          <text x="360" y="207" fill="rgba(180,185,200,0.55)" font-size="9" font-family="monospace" text-anchor="middle">Moon</text>
-
-          <!-- Legend bottom left -->
-          <circle cx="18" cy="415" r="3.5" fill="#4f9cf9"/>
-          <text x="27" y="419" fill="rgba(180,200,240,0.6)" font-size="9" font-family="monospace">Active satellite</text>
-          <circle cx="18" cy="430" r="2" fill="rgba(210,210,220,0.7)"/>
-          <text x="27" y="434" fill="rgba(180,200,240,0.6)" font-size="9" font-family="monospace">Orbital debris</text>
-          <circle cx="132" cy="415" r="3" fill="none" stroke="rgba(79,156,249,0.5)" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="140" y="419" fill="rgba(180,200,240,0.6)" font-size="9" font-family="monospace">Lagrange point</text>
-        </svg>
+      <!-- ESA-style canvas animation -->
+      <div class="orbit-wrap" style="width:460px;height:460px;position:relative;overflow:hidden;border-radius:8px;">
+        <canvas id="soarAnim" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
       </div>
     </div>
   </div>
@@ -409,5 +184,374 @@
 </footer>
 
 <script src="js/main.js"></script>
+
+<script>
+(function() {
+  const canvas = document.getElementById('soarAnim');
+  const ctx = canvas.getContext('2d');
+  let W, H, t = 0, startTime = Date.now();
+
+  // ── Resize canvas to match display size ──
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    W = canvas.width  = rect.width  || 460;
+    H = canvas.height = rect.height || 460;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // ── Constants ──
+  const CX = () => W * 0.5;   // Earth center X
+  const CY = () => H * 0.5;   // Earth center Y
+  const ER = () => Math.min(W,H) * 0.13;  // Earth radius
+  const MR = () => Math.min(W,H) * 0.055; // Moon radius
+  const MOON_RX = () => W * 0.36;
+  const MOON_RY = () => H * 0.15;
+  const MOON_PERIOD = 24; // seconds for one Moon orbit
+
+  // ── Surveillance satellites (5, named, fixed orbits) ──
+  const SAT_DEFS = [
+    { name:'SOAR-1', orbitR: 0.22, incline: 0,    speed: 0.55,  phase: 0,    color:'#4f9cf9' },
+    { name:'SOAR-2', orbitR: 0.27, incline: 0.25, speed: 0.38,  phase: 2.1,  color:'#4f9cf9' },
+    { name:'SOAR-3', orbitR: 0.22, incline:-0.20, speed: 0.47,  phase: 4.2,  color:'#4f9cf9' },
+    { name:'SOAR-4', orbitR: 0.33, incline: 0.10, speed: 0.26,  phase: 1.0,  color:'#4fdcdc' },
+    { name:'SOAR-5', orbitR: 0.38, incline:-0.15, speed: 0.20,  phase: 3.3,  color:'#4fdcdc' },
+  ];
+
+  // ── Debris — grow over time (ESA style) ──
+  let debris = [];
+  const MAX_DEBRIS = 38;
+  const DEBRIS_SPAWN_INTERVAL = 2.2; // seconds between new debris
+
+  function spawnDebris() {
+    const angle = Math.random() * Math.PI * 2;
+    // distribute across LEO rings: 0.19 to 0.32 of canvas
+    const ring = 0.19 + Math.random() * 0.13;
+    debris.push({
+      angle,
+      ring,
+      speed: (Math.random() > 0.5 ? 1 : -1) * (0.12 + Math.random() * 0.25),
+      incline: (Math.random() - 0.5) * 0.5,
+      alpha: 0,   // fade in
+    });
+  }
+
+  // Pre-seed a few
+  for (let i = 0; i < 8; i++) spawnDebris();
+  let lastSpawn = 0;
+
+  // ── Draw Earth ──
+  function drawEarth() {
+    const x = CX(), y = CY(), r = ER();
+    // Atmosphere halo
+    const atmo = ctx.createRadialGradient(x,y,r*0.9, x,y, r*1.45);
+    atmo.addColorStop(0, 'rgba(40,120,255,0.14)');
+    atmo.addColorStop(1, 'rgba(40,120,255,0)');
+    ctx.fillStyle = atmo;
+    ctx.beginPath(); ctx.arc(x,y,r*1.45,0,Math.PI*2); ctx.fill();
+
+    // Earth body
+    const g = ctx.createRadialGradient(x-r*0.28, y-r*0.28, r*0.05, x,y,r);
+    g.addColorStop(0,  '#2e7fd4');
+    g.addColorStop(0.45,'#1548a0');
+    g.addColorStop(1,  '#091838');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+
+    // Continents
+    ctx.save();
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.clip();
+    const continents = [
+      [x-r*0.15, y-r*0.18, r*0.22, r*0.14, -0.4],
+      [x+r*0.10, y-r*0.22, r*0.13, r*0.10,  0.3],
+      [x+r*0.28, y+r*0.05, r*0.10, r*0.16, -0.1],
+      [x-r*0.20, y+r*0.10, r*0.14, r*0.09,  0.2],
+      [x+r*0.05, y+r*0.20, r*0.16, r*0.08,  0.0],
+      [x-r*0.38, y-r*0.05, r*0.08, r*0.12, -0.2],
+    ];
+    continents.forEach(([cx2,cy2,rx,ry,rot]) => {
+      ctx.save(); ctx.translate(cx2,cy2); ctx.rotate(rot);
+      ctx.fillStyle = 'rgba(45,165,70,0.52)';
+      ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+    });
+    // Cloud wisps
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.beginPath(); ctx.ellipse(x-r*0.1, y-r*0.05, r*0.2, r*0.05, -0.3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(x+r*0.15, y+r*0.18, r*0.15, r*0.04, 0.2, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // Rim
+    ctx.strokeStyle = 'rgba(80,170,255,0.38)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
+
+    // "Earth" label
+    ctx.fillStyle = 'rgba(140,190,255,0.6)';
+    ctx.font = `${Math.max(9, H*0.02)}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Earth', x, y + r + 16);
+    ctx.textAlign = 'left';
+  }
+
+  // ── Draw Moon ──
+  function moonPos() {
+    const elapsed = (Date.now() - startTime) / 1000;
+    const angle = (elapsed / MOON_PERIOD) * Math.PI * 2;
+    return {
+      x: CX() + Math.cos(angle) * MOON_RX(),
+      y: CY() + Math.sin(angle) * MOON_RY(),
+      angle
+    };
+  }
+
+  function drawMoonOrbitPath() {
+    ctx.save(); ctx.translate(CX(), CY());
+    ctx.strokeStyle = 'rgba(92,160,255,0.1)';
+    ctx.lineWidth = 0.8;
+    ctx.setLineDash([4,7]);
+    ctx.beginPath(); ctx.ellipse(0,0, MOON_RX(), MOON_RY(), 0, 0, Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  function drawMoon(mp) {
+    const r = MR();
+    // Glow
+    const glow = ctx.createRadialGradient(mp.x,mp.y,0, mp.x,mp.y, r*1.6);
+    glow.addColorStop(0,'rgba(160,165,185,0.12)');
+    glow.addColorStop(1,'rgba(160,165,185,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(mp.x,mp.y,r*1.6,0,Math.PI*2); ctx.fill();
+
+    // Moon body
+    const mg = ctx.createRadialGradient(mp.x-r*0.25, mp.y-r*0.25, r*0.05, mp.x,mp.y,r);
+    mg.addColorStop(0,'#9aa0b0'); mg.addColorStop(0.6,'#565b6a'); mg.addColorStop(1,'#282c38');
+    ctx.fillStyle = mg;
+    ctx.beginPath(); ctx.arc(mp.x,mp.y,r,0,Math.PI*2); ctx.fill();
+
+    // Craters
+    [[0.28,0.18,0.11],[−0.22,0.28,0.08],[0.08,−0.28,0.07],[−0.12,−0.12,0.05]].forEach(([dx,dy,cr]) => {
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx.beginPath(); ctx.arc(mp.x+dx*r, mp.y+dy*r, cr*r,0,Math.PI*2); ctx.fill();
+    });
+
+    // Rim
+    ctx.strokeStyle = 'rgba(150,155,175,0.22)';
+    ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.arc(mp.x,mp.y,r,0,Math.PI*2); ctx.stroke();
+
+    // Label
+    ctx.fillStyle = 'rgba(160,170,195,0.6)';
+    ctx.font = `${Math.max(9,H*0.02)}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Moon', mp.x, mp.y + r + 14);
+    ctx.textAlign = 'left';
+  }
+
+  // ── Draw L1 / L2 markers ──
+  function drawLagrange(mp) {
+    const l1x = CX() + (mp.x - CX()) * 0.84;
+    const l1y = CY() + (mp.y - CY()) * 0.84;
+    const l2x = mp.x + (mp.x - CX()) * 0.18;
+    const l2y = mp.y + (mp.y - CY()) * 0.18;
+
+    [[l1x,l1y,'L1'],[l2x,l2y,'L2']].forEach(([lx,ly,lbl]) => {
+      const pulse = 0.35 + 0.35 * Math.sin(t*0.9 + (lbl==='L1'?0:1.6));
+      ctx.strokeStyle = `rgba(92,200,255,${pulse*0.8})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle = `rgba(92,200,255,${pulse*0.25})`;
+      ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = `rgba(92,200,255,${pulse})`;
+      ctx.font = `${Math.max(8,H*0.018)}px monospace`;
+      ctx.fillText(lbl, lx+8, ly+4);
+    });
+  }
+
+  // ── Draw debris ──
+  function drawDebris() {
+    debris.forEach(d => {
+      // Elliptical orbit position
+      const rx = W * d.ring;
+      const ry = rx * (0.3 + Math.abs(d.incline)*0.4);
+      const rotAngle = d.incline;
+      const cosR = Math.cos(rotAngle), sinR = Math.sin(rotAngle);
+      const ex = Math.cos(d.angle) * rx;
+      const ey = Math.sin(d.angle) * ry;
+      const px = CX() + ex*cosR - ey*sinR;
+      const py = CY() + ex*sinR + ey*cosR;
+
+      ctx.fillStyle = `rgba(200,205,215,${d.alpha * 0.75})`;
+      ctx.beginPath(); ctx.arc(px, py, 1.6, 0, Math.PI*2); ctx.fill();
+    });
+  }
+
+  function updateDebris(elapsed) {
+    // Spawn new debris over time
+    if (debris.length < MAX_DEBRIS && elapsed - lastSpawn > DEBRIS_SPAWN_INTERVAL) {
+      spawnDebris();
+      lastSpawn = elapsed;
+    }
+    debris.forEach(d => {
+      d.angle += d.speed * 0.016;
+      if (d.alpha < 1) d.alpha = Math.min(1, d.alpha + 0.008);
+    });
+  }
+
+  // ── Draw satellites ──
+  function satPos(def) {
+    const r = Math.min(W,H) * def.orbitR;
+    const ry = r * (0.35 + Math.abs(def.incline)*0.3);
+    const angle = t * def.speed + def.phase;
+    const cosI = Math.cos(def.incline), sinI = Math.sin(def.incline);
+    const ex = Math.cos(angle) * r;
+    const ey = Math.sin(angle) * ry;
+    return {
+      x: CX() + ex*cosI - ey*sinI,
+      y: CY() + ex*sinI + ey*cosI,
+      angle
+    };
+  }
+
+  function drawSatOrbitPath(def) {
+    const r = Math.min(W,H) * def.orbitR;
+    const ry = r * (0.35 + Math.abs(def.incline)*0.3);
+    ctx.save();
+    ctx.translate(CX(), CY());
+    ctx.rotate(def.incline);
+    ctx.strokeStyle = `rgba(79,156,249,0.07)`;
+    ctx.lineWidth = 0.6;
+    ctx.setLineDash([3,6]);
+    ctx.beginPath(); ctx.ellipse(0,0,r,ry,0,0,Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  function drawSatellite(def, pos) {
+    const c = def.color;
+    // Glow
+    const glow = ctx.createRadialGradient(pos.x,pos.y,0, pos.x,pos.y,10);
+    glow.addColorStop(0, c + '40');
+    glow.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(pos.x,pos.y,10,0,Math.PI*2); ctx.fill();
+
+    // Body
+    ctx.fillStyle = '#c8d0e0';
+    ctx.fillRect(pos.x-4, pos.y-3, 8, 6);
+    ctx.fillStyle = c;
+    ctx.beginPath(); ctx.arc(pos.x, pos.y, 2.5, 0, Math.PI*2); ctx.fill();
+
+    // Solar panels
+    ctx.strokeStyle = c + 'bb';
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    ctx.moveTo(pos.x-4, pos.y); ctx.lineTo(pos.x-13, pos.y);
+    ctx.moveTo(pos.x+4, pos.y); ctx.lineTo(pos.x+13, pos.y);
+    ctx.stroke();
+    // Panel fill
+    ctx.fillStyle = c + '44';
+    ctx.fillRect(pos.x-13, pos.y-2, 8, 4);
+    ctx.fillRect(pos.x+5,  pos.y-2, 8, 4);
+  }
+
+  function drawSatLabel(def, pos) {
+    // Only show label when near top half to avoid clutter
+    if (pos.y < CY()) {
+      ctx.fillStyle = `rgba(140,200,255,0.55)`;
+      ctx.font = `${Math.max(7,H*0.016)}px monospace`;
+      ctx.fillText(def.name, pos.x+8, pos.y-6);
+    }
+  }
+
+  // ── Legend ──
+  function drawLegend() {
+    const lx = 10, ly = H - 56;
+    const fs = Math.max(8, H*0.018);
+    ctx.font = `${fs}px monospace`;
+
+    // Surveillance satellite
+    ctx.fillStyle = '#c8d0e0';
+    ctx.fillRect(lx, ly-4, 8, 6);
+    ctx.strokeStyle = '#4f9cf9bb'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(lx-6,ly-1); ctx.lineTo(lx,ly-1); ctx.moveTo(lx+8,ly-1); ctx.lineTo(lx+14,ly-1); ctx.stroke();
+    ctx.fillStyle = 'rgba(160,200,240,0.65)';
+    ctx.fillText('Surveillance satellite', lx+18, ly+3);
+
+    // Space debris
+    ctx.fillStyle = 'rgba(200,205,215,0.75)';
+    ctx.beginPath(); ctx.arc(lx+4, ly+18, 2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(160,200,240,0.65)';
+    ctx.fillText('Space debris', lx+18, ly+22);
+
+    // Lagrange
+    ctx.strokeStyle = 'rgba(92,200,255,0.55)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(lx+4, ly+37, 4, 0, Math.PI*2); ctx.stroke();
+    ctx.fillStyle = 'rgba(160,200,240,0.65)';
+    ctx.fillText('Lagrange point', lx+18, ly+41);
+  }
+
+  // ── Debris count readout (ESA-style) ──
+  function drawDebrisCount() {
+    const count = debris.length;
+    ctx.fillStyle = 'rgba(92,200,255,0.4)';
+    ctx.font = `${Math.max(8,H*0.016)}px monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(`Tracked objects: ${count}`, W-10, 18);
+    ctx.textAlign = 'left';
+  }
+
+  // ── Main loop ──
+  function frame() {
+    const elapsed = (Date.now() - startTime) / 1000;
+    t += 0.016;
+
+    ctx.fillStyle = '#050914';
+    ctx.fillRect(0,0,W,H);
+
+    // Background stars (static)
+    ctx.fillStyle = 'rgba(220,225,235,0.35)';
+    [[42,28],[190,18],[310,35],[420,22],[55,140],[430,110],
+     [380,300],[15,320],[440,380],[200,420],[90,400]].forEach(([sx,sy]) => {
+      const scale = W/460;
+      ctx.beginPath(); ctx.arc(sx*scale,sy*scale,0.7,0,Math.PI*2); ctx.fill();
+    });
+
+    // Twinkling stars
+    [[75,75,2.3],[400,50,1.8],[430,280,3.1],[40,380,2.7]].forEach(([sx,sy,dur]) => {
+      const scale = W/460;
+      const a = 0.3 + 0.7*Math.abs(Math.sin(elapsed/dur*Math.PI));
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.beginPath(); ctx.arc(sx*scale,sy*scale,1,0,Math.PI*2); ctx.fill();
+    });
+
+    const mp = moonPos();
+
+    drawMoonOrbitPath();
+    updateDebris(elapsed);
+
+    // Draw sat orbit paths first (behind everything)
+    SAT_DEFS.forEach(def => drawSatOrbitPath(def));
+
+    drawDebris();
+    drawEarth();
+    drawMoon(mp);
+    drawLagrange(mp);
+
+    // Draw satellites
+    const satPositions = SAT_DEFS.map(def => ({ def, pos: satPos(def) }));
+    satPositions.forEach(({ def, pos }) => drawSatellite(def, pos));
+    satPositions.forEach(({ def, pos }) => drawSatLabel(def, pos));
+
+    drawDebrisCount();
+    drawLegend();
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+
 </body>
 </html>
