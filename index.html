@@ -48,11 +48,11 @@
         </div>
       </div>
 
-      <!-- ESA-style canvas animation -->
-      <div class="orbit-wrap" style="width:460px;height:460px;position:relative;overflow:hidden;border-radius:8px;">
-        <canvas id="soarAnim" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
+      <!-- ESA-style orbital animation -->
+      <div id="soarAnimWrap" style="width:460px;height:460px;position:relative;flex-shrink:0;">
+        <canvas id="soarAnim" width="460" height="460" style="width:460px;height:460px;display:block;"></canvas>
       </div>
-    </div>
+      </div>
   </div>
 </section>
 
@@ -184,374 +184,338 @@
 </footer>
 
 <script src="js/main.js"></script>
-
 <script>
 (function() {
-  const canvas = document.getElementById('soarAnim');
-  const ctx = canvas.getContext('2d');
-  let W, H, t = 0, startTime = Date.now();
+  var canvas = document.getElementById('soarAnim');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = 460, H = 460;
+  var t = 0;
+  var startMs = Date.now();
 
-  // ── Resize canvas to match display size ──
-  function resize() {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    W = canvas.width  = rect.width  || 460;
-    H = canvas.height = rect.height || 460;
-  }
-  window.addEventListener('resize', resize);
-  resize();
+  // Earth center
+  var CX = 230, CY = 230;
+  var ER = 58;   // Earth radius
+  var MR = 24;   // Moon radius
 
-  // ── Constants ──
-  const CX = () => W * 0.5;   // Earth center X
-  const CY = () => H * 0.5;   // Earth center Y
-  const ER = () => Math.min(W,H) * 0.13;  // Earth radius
-  const MR = () => Math.min(W,H) * 0.055; // Moon radius
-  const MOON_RX = () => W * 0.36;
-  const MOON_RY = () => H * 0.15;
-  const MOON_PERIOD = 24; // seconds for one Moon orbit
+  // Moon orbit
+  var MOON_RX = 162, MOON_RY = 62;
+  var MOON_PERIOD = 26; // seconds
 
-  // ── Surveillance satellites (5, named, fixed orbits) ──
-  const SAT_DEFS = [
-    { name:'SOAR-1', orbitR: 0.22, incline: 0,    speed: 0.55,  phase: 0,    color:'#4f9cf9' },
-    { name:'SOAR-2', orbitR: 0.27, incline: 0.25, speed: 0.38,  phase: 2.1,  color:'#4f9cf9' },
-    { name:'SOAR-3', orbitR: 0.22, incline:-0.20, speed: 0.47,  phase: 4.2,  color:'#4f9cf9' },
-    { name:'SOAR-4', orbitR: 0.33, incline: 0.10, speed: 0.26,  phase: 1.0,  color:'#4fdcdc' },
-    { name:'SOAR-5', orbitR: 0.38, incline:-0.15, speed: 0.20,  phase: 3.3,  color:'#4fdcdc' },
+  // 5 surveillance satellites
+  var SATS = [
+    { name:'SOAR-1', r:96,  ry:34, speed:0.55, phase:0,   color:'#4f9cf9' },
+    { name:'SOAR-2', r:116, ry:40, speed:0.38, phase:2.1, color:'#4f9cf9' },
+    { name:'SOAR-3', r:100, ry:36, speed:0.47, phase:4.2, color:'#5bd4ff' },
+    { name:'SOAR-4', r:138, ry:46, speed:0.26, phase:1.0, color:'#4fdcdc' },
+    { name:'SOAR-5', r:158, ry:52, speed:0.19, phase:3.3, color:'#4fdcdc' },
   ];
 
-  // ── Debris — grow over time (ESA style) ──
-  let debris = [];
-  const MAX_DEBRIS = 38;
-  const DEBRIS_SPAWN_INTERVAL = 2.2; // seconds between new debris
-
-  function spawnDebris() {
-    const angle = Math.random() * Math.PI * 2;
-    // distribute across LEO rings: 0.19 to 0.32 of canvas
-    const ring = 0.19 + Math.random() * 0.13;
-    debris.push({
-      angle,
-      ring,
-      speed: (Math.random() > 0.5 ? 1 : -1) * (0.12 + Math.random() * 0.25),
-      incline: (Math.random() - 0.5) * 0.5,
-      alpha: 0,   // fade in
+  // Stars (fixed)
+  var STARS = [];
+  for (var i=0;i<55;i++) {
+    STARS.push({
+      x: Math.random()*460,
+      y: Math.random()*460,
+      r: 0.4 + Math.random()*0.8,
+      twinkle: Math.random()*Math.PI*2,
+      speed: 0.5 + Math.random()*1.5
     });
   }
 
-  // Pre-seed a few
-  for (let i = 0; i < 8; i++) spawnDebris();
-  let lastSpawn = 0;
+  // Debris — grow over time
+  var debris = [];
+  var MAX_DEBRIS = 36;
+  var lastSpawn = 0;
+  var SPAWN_GAP = 2.4; // seconds
 
-  // ── Draw Earth ──
+  function seedDebris() {
+    for (var i=0;i<7;i++) addDebris();
+  }
+
+  function addDebris() {
+    var shells = [
+      {minR:78, maxR:88,   minRY:26, maxRY:32},
+      {minR:89, maxR:108,  minRY:32, maxRY:38},
+      {minR:118,maxR:135,  minRY:40, maxRY:46},
+      {minR:162,maxR:178,  minRY:54, maxRY:60},
+    ];
+    var sh = shells[Math.floor(Math.random()*shells.length)];
+    var r  = sh.minR  + Math.random()*(sh.maxR  - sh.minR);
+    var ry = sh.minRY + Math.random()*(sh.maxRY - sh.minRY);
+    debris.push({
+      angle: Math.random()*Math.PI*2,
+      r: r, ry: ry,
+      tilt: (Math.random()-0.5)*0.5,
+      speed: (Math.random()>0.5?1:-1)*(0.10+Math.random()*0.28),
+      alpha: 0,
+    });
+  }
+
+  seedDebris();
+
+  // ── draw helpers ──
+
   function drawEarth() {
-    const x = CX(), y = CY(), r = ER();
-    // Atmosphere halo
-    const atmo = ctx.createRadialGradient(x,y,r*0.9, x,y, r*1.45);
-    atmo.addColorStop(0, 'rgba(40,120,255,0.14)');
-    atmo.addColorStop(1, 'rgba(40,120,255,0)');
+    // Atmosphere
+    var atmo = ctx.createRadialGradient(CX,CY,ER*0.9, CX,CY,ER*1.5);
+    atmo.addColorStop(0,'rgba(40,120,255,0.15)');
+    atmo.addColorStop(1,'rgba(40,120,255,0)');
     ctx.fillStyle = atmo;
-    ctx.beginPath(); ctx.arc(x,y,r*1.45,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(CX,CY,ER*1.5,0,Math.PI*2); ctx.fill();
 
-    // Earth body
-    const g = ctx.createRadialGradient(x-r*0.28, y-r*0.28, r*0.05, x,y,r);
-    g.addColorStop(0,  '#2e7fd4');
-    g.addColorStop(0.45,'#1548a0');
-    g.addColorStop(1,  '#091838');
+    // Body
+    var g = ctx.createRadialGradient(CX-16,CY-16,4, CX,CY,ER);
+    g.addColorStop(0,'#2e80d8');
+    g.addColorStop(0.5,'#154aaa');
+    g.addColorStop(1,'#081838');
     ctx.fillStyle = g;
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.fill();
 
     // Continents
     ctx.save();
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.clip();
-    const continents = [
-      [x-r*0.15, y-r*0.18, r*0.22, r*0.14, -0.4],
-      [x+r*0.10, y-r*0.22, r*0.13, r*0.10,  0.3],
-      [x+r*0.28, y+r*0.05, r*0.10, r*0.16, -0.1],
-      [x-r*0.20, y+r*0.10, r*0.14, r*0.09,  0.2],
-      [x+r*0.05, y+r*0.20, r*0.16, r*0.08,  0.0],
-      [x-r*0.38, y-r*0.05, r*0.08, r*0.12, -0.2],
+    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.clip();
+    var conts = [
+      [-8,-10,13,8,-0.4],
+      [6,-13,8,6,0.3],
+      [16,3,6,10,-0.1],
+      [-12,6,9,5,0.2],
+      [3,12,10,5,0],
     ];
-    continents.forEach(([cx2,cy2,rx,ry,rot]) => {
-      ctx.save(); ctx.translate(cx2,cy2); ctx.rotate(rot);
-      ctx.fillStyle = 'rgba(45,165,70,0.52)';
-      ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2); ctx.fill();
+    conts.forEach(function(c){
+      ctx.save();
+      ctx.translate(CX+c[0],CY+c[1]);
+      ctx.rotate(c[4]);
+      ctx.fillStyle='rgba(45,165,70,0.54)';
+      ctx.beginPath();
+      ctx.ellipse(0,0,c[2],c[3],0,0,Math.PI*2);
+      ctx.fill();
       ctx.restore();
     });
-    // Cloud wisps
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
-    ctx.beginPath(); ctx.ellipse(x-r*0.1, y-r*0.05, r*0.2, r*0.05, -0.3, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(x+r*0.15, y+r*0.18, r*0.15, r*0.04, 0.2, 0, Math.PI*2); ctx.fill();
     ctx.restore();
 
     // Rim
-    ctx.strokeStyle = 'rgba(80,170,255,0.38)';
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle='rgba(80,170,255,0.4)';
+    ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.arc(CX,CY,ER,0,Math.PI*2); ctx.stroke();
 
-    // "Earth" label
-    ctx.fillStyle = 'rgba(140,190,255,0.6)';
-    ctx.font = `${Math.max(9, H*0.02)}px monospace`;
-    ctx.textAlign = 'center';
-    ctx.fillText('Earth', x, y + r + 16);
-    ctx.textAlign = 'left';
+    // Label
+    ctx.fillStyle='rgba(140,190,255,0.65)';
+    ctx.font='10px monospace';
+    ctx.textAlign='center';
+    ctx.fillText('Earth', CX, CY+ER+16);
+    ctx.textAlign='left';
   }
 
-  // ── Draw Moon ──
   function moonPos() {
-    const elapsed = (Date.now() - startTime) / 1000;
-    const angle = (elapsed / MOON_PERIOD) * Math.PI * 2;
-    return {
-      x: CX() + Math.cos(angle) * MOON_RX(),
-      y: CY() + Math.sin(angle) * MOON_RY(),
-      angle
-    };
+    var el = (Date.now()-startMs)/1000;
+    var a  = (el/MOON_PERIOD)*Math.PI*2;
+    return { x: CX+Math.cos(a)*MOON_RX, y: CY+Math.sin(a)*MOON_RY };
   }
 
-  function drawMoonOrbitPath() {
-    ctx.save(); ctx.translate(CX(), CY());
-    ctx.strokeStyle = 'rgba(92,160,255,0.1)';
-    ctx.lineWidth = 0.8;
+  function drawMoonPath() {
+    ctx.save(); ctx.translate(CX,CY);
+    ctx.strokeStyle='rgba(92,160,255,0.1)';
+    ctx.lineWidth=0.8;
     ctx.setLineDash([4,7]);
-    ctx.beginPath(); ctx.ellipse(0,0, MOON_RX(), MOON_RY(), 0, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(0,0,MOON_RX,MOON_RY,0,0,Math.PI*2); ctx.stroke();
     ctx.setLineDash([]);
     ctx.restore();
   }
 
   function drawMoon(mp) {
-    const r = MR();
+    var r = MR;
     // Glow
-    const glow = ctx.createRadialGradient(mp.x,mp.y,0, mp.x,mp.y, r*1.6);
-    glow.addColorStop(0,'rgba(160,165,185,0.12)');
-    glow.addColorStop(1,'rgba(160,165,185,0)');
-    ctx.fillStyle = glow;
-    ctx.beginPath(); ctx.arc(mp.x,mp.y,r*1.6,0,Math.PI*2); ctx.fill();
+    var gl = ctx.createRadialGradient(mp.x,mp.y,0, mp.x,mp.y,r*1.7);
+    gl.addColorStop(0,'rgba(150,155,180,0.12)');
+    gl.addColorStop(1,'rgba(150,155,180,0)');
+    ctx.fillStyle=gl;
+    ctx.beginPath(); ctx.arc(mp.x,mp.y,r*1.7,0,Math.PI*2); ctx.fill();
 
-    // Moon body
-    const mg = ctx.createRadialGradient(mp.x-r*0.25, mp.y-r*0.25, r*0.05, mp.x,mp.y,r);
-    mg.addColorStop(0,'#9aa0b0'); mg.addColorStop(0.6,'#565b6a'); mg.addColorStop(1,'#282c38');
-    ctx.fillStyle = mg;
+    // Body
+    var mg = ctx.createRadialGradient(mp.x-r*0.25,mp.y-r*0.25,r*0.05, mp.x,mp.y,r);
+    mg.addColorStop(0,'#9aa0b2');
+    mg.addColorStop(0.6,'#565c6e');
+    mg.addColorStop(1,'#282c3a');
+    ctx.fillStyle=mg;
     ctx.beginPath(); ctx.arc(mp.x,mp.y,r,0,Math.PI*2); ctx.fill();
 
     // Craters
-    [[0.28,0.18,0.11],[−0.22,0.28,0.08],[0.08,−0.28,0.07],[−0.12,−0.12,0.05]].forEach(([dx,dy,cr]) => {
-      ctx.fillStyle = 'rgba(0,0,0,0.2)';
-      ctx.beginPath(); ctx.arc(mp.x+dx*r, mp.y+dy*r, cr*r,0,Math.PI*2); ctx.fill();
+    [[0.28,0.18,0.11],[-0.22,0.28,0.08],[0.08,-0.28,0.07]].forEach(function(c){
+      ctx.fillStyle='rgba(0,0,0,0.22)';
+      ctx.beginPath(); ctx.arc(mp.x+c[0]*r, mp.y+c[1]*r, c[2]*r, 0, Math.PI*2); ctx.fill();
     });
 
     // Rim
-    ctx.strokeStyle = 'rgba(150,155,175,0.22)';
-    ctx.lineWidth = 0.8;
+    ctx.strokeStyle='rgba(150,155,180,0.22)';
+    ctx.lineWidth=0.8;
     ctx.beginPath(); ctx.arc(mp.x,mp.y,r,0,Math.PI*2); ctx.stroke();
 
     // Label
-    ctx.fillStyle = 'rgba(160,170,195,0.6)';
-    ctx.font = `${Math.max(9,H*0.02)}px monospace`;
-    ctx.textAlign = 'center';
-    ctx.fillText('Moon', mp.x, mp.y + r + 14);
-    ctx.textAlign = 'left';
+    ctx.fillStyle='rgba(160,170,200,0.6)';
+    ctx.font='10px monospace';
+    ctx.textAlign='center';
+    ctx.fillText('Moon', mp.x, mp.y+r+14);
+    ctx.textAlign='left';
   }
 
-  // ── Draw L1 / L2 markers ──
   function drawLagrange(mp) {
-    const l1x = CX() + (mp.x - CX()) * 0.84;
-    const l1y = CY() + (mp.y - CY()) * 0.84;
-    const l2x = mp.x + (mp.x - CX()) * 0.18;
-    const l2y = mp.y + (mp.y - CY()) * 0.18;
-
-    [[l1x,l1y,'L1'],[l2x,l2y,'L2']].forEach(([lx,ly,lbl]) => {
-      const pulse = 0.35 + 0.35 * Math.sin(t*0.9 + (lbl==='L1'?0:1.6));
-      ctx.strokeStyle = `rgba(92,200,255,${pulse*0.8})`;
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.stroke();
-      ctx.fillStyle = `rgba(92,200,255,${pulse*0.25})`;
-      ctx.beginPath(); ctx.arc(lx,ly,5,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle = `rgba(92,200,255,${pulse})`;
-      ctx.font = `${Math.max(8,H*0.018)}px monospace`;
-      ctx.fillText(lbl, lx+8, ly+4);
+    var l1x=CX+(mp.x-CX)*0.84, l1y=CY+(mp.y-CY)*0.84;
+    var l2x=mp.x+(mp.x-CX)*0.18, l2y=mp.y+(mp.y-CY)*0.18;
+    [[l1x,l1y,'L1'],[l2x,l2y,'L2']].forEach(function(pt){
+      var pulse=0.35+0.35*Math.abs(Math.sin(t*0.9+(pt[2]==='L1'?0:1.6)));
+      ctx.strokeStyle='rgba(92,200,255,'+pulse*0.8+')';
+      ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(pt[0],pt[1],5,0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle='rgba(92,200,255,'+pulse*0.22+')';
+      ctx.beginPath(); ctx.arc(pt[0],pt[1],5,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(92,200,255,'+pulse+')';
+      ctx.font='9px monospace';
+      ctx.fillText(pt[2], pt[0]+8, pt[1]+4);
     });
   }
 
-  // ── Draw debris ──
-  function drawDebris() {
-    debris.forEach(d => {
-      // Elliptical orbit position
-      const rx = W * d.ring;
-      const ry = rx * (0.3 + Math.abs(d.incline)*0.4);
-      const rotAngle = d.incline;
-      const cosR = Math.cos(rotAngle), sinR = Math.sin(rotAngle);
-      const ex = Math.cos(d.angle) * rx;
-      const ey = Math.sin(d.angle) * ry;
-      const px = CX() + ex*cosR - ey*sinR;
-      const py = CY() + ex*sinR + ey*cosR;
-
-      ctx.fillStyle = `rgba(200,205,215,${d.alpha * 0.75})`;
-      ctx.beginPath(); ctx.arc(px, py, 1.6, 0, Math.PI*2); ctx.fill();
-    });
+  function drawDebrisItem(d) {
+    var cosT=Math.cos(d.tilt), sinT=Math.sin(d.tilt);
+    var ex=Math.cos(d.angle)*d.r;
+    var ey=Math.sin(d.angle)*d.ry;
+    var px=CX + ex*cosT - ey*sinT;
+    var py=CY + ex*sinT + ey*cosT;
+    ctx.fillStyle='rgba(200,205,218,'+d.alpha*0.72+')';
+    ctx.beginPath(); ctx.arc(px,py,1.5,0,Math.PI*2); ctx.fill();
   }
 
-  function updateDebris(elapsed) {
-    // Spawn new debris over time
-    if (debris.length < MAX_DEBRIS && elapsed - lastSpawn > DEBRIS_SPAWN_INTERVAL) {
-      spawnDebris();
-      lastSpawn = elapsed;
-    }
-    debris.forEach(d => {
-      d.angle += d.speed * 0.016;
-      if (d.alpha < 1) d.alpha = Math.min(1, d.alpha + 0.008);
-    });
-  }
-
-  // ── Draw satellites ──
-  function satPos(def) {
-    const r = Math.min(W,H) * def.orbitR;
-    const ry = r * (0.35 + Math.abs(def.incline)*0.3);
-    const angle = t * def.speed + def.phase;
-    const cosI = Math.cos(def.incline), sinI = Math.sin(def.incline);
-    const ex = Math.cos(angle) * r;
-    const ey = Math.sin(angle) * ry;
-    return {
-      x: CX() + ex*cosI - ey*sinI,
-      y: CY() + ex*sinI + ey*cosI,
-      angle
-    };
-  }
-
-  function drawSatOrbitPath(def) {
-    const r = Math.min(W,H) * def.orbitR;
-    const ry = r * (0.35 + Math.abs(def.incline)*0.3);
-    ctx.save();
-    ctx.translate(CX(), CY());
-    ctx.rotate(def.incline);
-    ctx.strokeStyle = `rgba(79,156,249,0.07)`;
-    ctx.lineWidth = 0.6;
+  function drawSatOrbitPath(s) {
+    ctx.save(); ctx.translate(CX,CY);
+    ctx.strokeStyle='rgba(79,156,249,0.07)';
+    ctx.lineWidth=0.6;
     ctx.setLineDash([3,6]);
-    ctx.beginPath(); ctx.ellipse(0,0,r,ry,0,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(0,0,s.r,s.ry,0,0,Math.PI*2); ctx.stroke();
     ctx.setLineDash([]);
     ctx.restore();
   }
 
-  function drawSatellite(def, pos) {
-    const c = def.color;
+  function getSatXY(s) {
+    var a = t*s.speed + s.phase;
+    return {
+      x: CX + Math.cos(a)*s.r,
+      y: CY + Math.sin(a)*s.ry
+    };
+  }
+
+  function drawSat(s, pos) {
     // Glow
-    const glow = ctx.createRadialGradient(pos.x,pos.y,0, pos.x,pos.y,10);
-    glow.addColorStop(0, c + '40');
-    glow.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = glow;
+    var gl=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,10);
+    gl.addColorStop(0,s.color+'50'); gl.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=gl;
     ctx.beginPath(); ctx.arc(pos.x,pos.y,10,0,Math.PI*2); ctx.fill();
 
     // Body
-    ctx.fillStyle = '#c8d0e0';
-    ctx.fillRect(pos.x-4, pos.y-3, 8, 6);
-    ctx.fillStyle = c;
-    ctx.beginPath(); ctx.arc(pos.x, pos.y, 2.5, 0, Math.PI*2); ctx.fill();
-
+    ctx.fillStyle='#c8d0e0';
+    ctx.fillRect(pos.x-4,pos.y-3,8,6);
+    // Core dot
+    ctx.fillStyle=s.color;
+    ctx.beginPath(); ctx.arc(pos.x,pos.y,2.5,0,Math.PI*2); ctx.fill();
     // Solar panels
-    ctx.strokeStyle = c + 'bb';
-    ctx.lineWidth = 2.2;
+    ctx.strokeStyle=s.color+'cc'; ctx.lineWidth=2.2;
     ctx.beginPath();
-    ctx.moveTo(pos.x-4, pos.y); ctx.lineTo(pos.x-13, pos.y);
-    ctx.moveTo(pos.x+4, pos.y); ctx.lineTo(pos.x+13, pos.y);
+    ctx.moveTo(pos.x-4,pos.y); ctx.lineTo(pos.x-13,pos.y);
+    ctx.moveTo(pos.x+4,pos.y); ctx.lineTo(pos.x+13,pos.y);
     ctx.stroke();
-    // Panel fill
-    ctx.fillStyle = c + '44';
-    ctx.fillRect(pos.x-13, pos.y-2, 8, 4);
-    ctx.fillRect(pos.x+5,  pos.y-2, 8, 4);
+    ctx.fillStyle=s.color+'44';
+    ctx.fillRect(pos.x-13,pos.y-2,8,4);
+    ctx.fillRect(pos.x+5, pos.y-2,8,4);
   }
 
-  function drawSatLabel(def, pos) {
-    // Only show label when near top half to avoid clutter
-    if (pos.y < CY()) {
-      ctx.fillStyle = `rgba(140,200,255,0.55)`;
-      ctx.font = `${Math.max(7,H*0.016)}px monospace`;
-      ctx.fillText(def.name, pos.x+8, pos.y-6);
+  function drawSatLabel(s, pos) {
+    if (pos.y < CY-10) {
+      ctx.fillStyle='rgba(140,200,255,0.6)';
+      ctx.font='8px monospace';
+      ctx.fillText(s.name, pos.x+8, pos.y-6);
     }
   }
 
-  // ── Legend ──
   function drawLegend() {
-    const lx = 10, ly = H - 56;
-    const fs = Math.max(8, H*0.018);
-    ctx.font = `${fs}px monospace`;
+    var lx=10, ly=H-58;
+    ctx.font='9px monospace';
 
-    // Surveillance satellite
-    ctx.fillStyle = '#c8d0e0';
-    ctx.fillRect(lx, ly-4, 8, 6);
-    ctx.strokeStyle = '#4f9cf9bb'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(lx-6,ly-1); ctx.lineTo(lx,ly-1); ctx.moveTo(lx+8,ly-1); ctx.lineTo(lx+14,ly-1); ctx.stroke();
-    ctx.fillStyle = 'rgba(160,200,240,0.65)';
-    ctx.fillText('Surveillance satellite', lx+18, ly+3);
+    // Satellite icon
+    ctx.fillStyle='#c8d0e0'; ctx.fillRect(lx,ly-3,8,6);
+    ctx.strokeStyle='#4f9cf9cc'; ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(lx-6,ly); ctx.lineTo(lx,ly);
+    ctx.moveTo(lx+8,ly); ctx.lineTo(lx+14,ly);
+    ctx.stroke();
+    ctx.fillStyle='rgba(160,200,240,0.65)';
+    ctx.fillText('Surveillance satellite', lx+18, ly+4);
 
-    // Space debris
-    ctx.fillStyle = 'rgba(200,205,215,0.75)';
-    ctx.beginPath(); ctx.arc(lx+4, ly+18, 2, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = 'rgba(160,200,240,0.65)';
+    // Debris dot
+    ctx.fillStyle='rgba(200,205,218,0.75)';
+    ctx.beginPath(); ctx.arc(lx+4,ly+18,2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='rgba(160,200,240,0.65)';
     ctx.fillText('Space debris', lx+18, ly+22);
 
-    // Lagrange
-    ctx.strokeStyle = 'rgba(92,200,255,0.55)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.arc(lx+4, ly+37, 4, 0, Math.PI*2); ctx.stroke();
-    ctx.fillStyle = 'rgba(160,200,240,0.65)';
+    // Lagrange circle
+    ctx.strokeStyle='rgba(92,200,255,0.55)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(lx+4,ly+37,4,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle='rgba(160,200,240,0.65)';
     ctx.fillText('Lagrange point', lx+18, ly+41);
   }
 
-  // ── Debris count readout (ESA-style) ──
-  function drawDebrisCount() {
-    const count = debris.length;
-    ctx.fillStyle = 'rgba(92,200,255,0.4)';
-    ctx.font = `${Math.max(8,H*0.016)}px monospace`;
-    ctx.textAlign = 'right';
-    ctx.fillText(`Tracked objects: ${count}`, W-10, 18);
-    ctx.textAlign = 'left';
+  function drawDebrisCounter() {
+    ctx.fillStyle='rgba(92,200,255,0.45)';
+    ctx.font='9px monospace';
+    ctx.textAlign='right';
+    ctx.fillText('Tracked objects: '+debris.length, W-8, 16);
+    ctx.textAlign='left';
   }
 
-  // ── Main loop ──
   function frame() {
-    const elapsed = (Date.now() - startTime) / 1000;
+    var elapsed = (Date.now()-startMs)/1000;
     t += 0.016;
 
-    ctx.fillStyle = '#050914';
+    // Spawn debris
+    if (debris.length < MAX_DEBRIS && elapsed-lastSpawn > SPAWN_GAP) {
+      addDebris(); lastSpawn=elapsed;
+    }
+    // Update debris
+    debris.forEach(function(d){
+      d.angle += d.speed*0.016;
+      if(d.alpha<1) d.alpha=Math.min(1,d.alpha+0.007);
+    });
+
+    // Background
+    ctx.fillStyle='#050914';
     ctx.fillRect(0,0,W,H);
 
-    // Background stars (static)
-    ctx.fillStyle = 'rgba(220,225,235,0.35)';
-    [[42,28],[190,18],[310,35],[420,22],[55,140],[430,110],
-     [380,300],[15,320],[440,380],[200,420],[90,400]].forEach(([sx,sy]) => {
-      const scale = W/460;
-      ctx.beginPath(); ctx.arc(sx*scale,sy*scale,0.7,0,Math.PI*2); ctx.fill();
+    // Stars
+    STARS.forEach(function(s){
+      var a=0.2+0.6*Math.abs(Math.sin(elapsed*s.speed+s.twinkle));
+      ctx.fillStyle='rgba(220,225,240,'+a+')';
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill();
     });
 
-    // Twinkling stars
-    [[75,75,2.3],[400,50,1.8],[430,280,3.1],[40,380,2.7]].forEach(([sx,sy,dur]) => {
-      const scale = W/460;
-      const a = 0.3 + 0.7*Math.abs(Math.sin(elapsed/dur*Math.PI));
-      ctx.fillStyle = `rgba(255,255,255,${a})`;
-      ctx.beginPath(); ctx.arc(sx*scale,sy*scale,1,0,Math.PI*2); ctx.fill();
-    });
+    var mp=moonPos();
 
-    const mp = moonPos();
-
-    drawMoonOrbitPath();
-    updateDebris(elapsed);
-
-    // Draw sat orbit paths first (behind everything)
-    SAT_DEFS.forEach(def => drawSatOrbitPath(def));
-
-    drawDebris();
+    drawMoonPath();
+    SATS.forEach(drawSatOrbitPath);
+    debris.forEach(drawDebrisItem);
     drawEarth();
     drawMoon(mp);
     drawLagrange(mp);
 
-    // Draw satellites
-    const satPositions = SAT_DEFS.map(def => ({ def, pos: satPos(def) }));
-    satPositions.forEach(({ def, pos }) => drawSatellite(def, pos));
-    satPositions.forEach(({ def, pos }) => drawSatLabel(def, pos));
+    var satPositions=SATS.map(function(s){ return {s:s, pos:getSatXY(s)}; });
+    satPositions.forEach(function(sp){ drawSat(sp.s, sp.pos); });
+    satPositions.forEach(function(sp){ drawSatLabel(sp.s, sp.pos); });
 
-    drawDebrisCount();
+    drawDebrisCounter();
     drawLegend();
 
     requestAnimationFrame(frame);
   }
+
   frame();
 })();
 </script>
-
 </body>
 </html>
